@@ -9,7 +9,8 @@ import com.novus.salat._
 import com.novus.salat.global._
 import com.mongodb.casbah.MongoClient
 
-case class Book(_id: Int, title: String, author: String)
+case class BookReduced(_id: Int, title: String, author: String)
+case class Book(_id: Int, title: String, author: String, description: String)
 
 class ServiceActor extends Actor with ServiceRoute {
 
@@ -25,14 +26,15 @@ class ServiceActor extends Actor with ServiceRoute {
 
 trait ServiceRoute extends HttpService with DefaultJsonProtocol {
 
-  implicit val booksFormat = jsonFormat3(Book)
+  implicit val booksReducedFormat = jsonFormat3(BookReduced)
+  implicit val booksFormat = jsonFormat4(Book)
   val collection: MongoCollection
 
   val route = pathPrefix("api" / "v1" / "books") {
     pathEnd {
       get {
         complete(
-          collection.find().toList.map(grater[Book].asObject(_))
+          collection.find().toList.map(grater[BookReduced].asObject(_))
         )
       }
     }

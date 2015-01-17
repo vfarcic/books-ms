@@ -32,10 +32,12 @@ class ServiceSpec extends Specification with Specs2RouteTest with HttpService wi
 
     "return all books" in {
       deleteBooks()
-      val expected: List[Book] = insertBooks(3)
+      val expected = insertBooks(3).map { book =>
+        BookReduced(book._id, book.title, book.author)
+      }
       Get(uri) ~> route ~> check {
-        response.entity must not equalTo(None)
-        val books = responseAs[List[Book]]
+        response.entity must not equalTo None
+        val books = responseAs[List[BookReduced]]
         books must haveSize(expected.size)
         books must equalTo(expected)
       }
@@ -48,7 +50,7 @@ class ServiceSpec extends Specification with Specs2RouteTest with HttpService wi
   }
 
   def insertBooks(quantity: Int): List[Book] = {
-    val books = List.tabulate(quantity)(id => Book(id, s"Title $id", s"Author $id"))
+    val books = List.tabulate(quantity)(id => Book(id, s"Title $id", s"Author $id", s"Description $id"))
     for (book <- books) {
       collection.insert(grater[Book].asDBObject(book))
     }
