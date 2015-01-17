@@ -11,9 +11,8 @@ import com.mongodb.casbah.MongoClient
 
 case class Book(_id: Int, title: String, author: String)
 
-class ServiceActor extends Actor with HttpService with DefaultJsonProtocol {
+class ServiceActor extends Actor with ServiceRoute {
 
-  implicit val booksFormat = jsonFormat3(Book)
   val config = context.system.settings.config
   val client = MongoClient(config.getString("books.db.host"), config.getInt("books.db.port"))
   val db = client(config.getString("books.db.db"))
@@ -21,6 +20,13 @@ class ServiceActor extends Actor with HttpService with DefaultJsonProtocol {
 
   def actorRefFactory = context
   def receive = runRoute(route)
+
+}
+
+trait ServiceRoute extends HttpService with DefaultJsonProtocol {
+
+  implicit val booksFormat = jsonFormat3(Book)
+  val collection: MongoCollection
 
   val route = pathPrefix("api" / "v1" / "books") {
     pathEnd {
