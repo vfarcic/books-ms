@@ -7,9 +7,14 @@ import com.novus.salat._
 import com.novus.salat.global._
 import org.specs2.mutable.Specification
 import org.specs2.specification.BeforeExample
+import spray.http.{ContentType, HttpEntity}
+import spray.http.MediaTypes._
 import spray.routing.HttpService
 import spray.testkit.Specs2RouteTest
 import spray.http.StatusCodes._
+import spray.json._
+import DefaultJsonProtocol._
+import spray.httpx.SprayJsonSupport._
 
 import spray.httpx.SprayJsonSupport._
 
@@ -19,13 +24,14 @@ class ServiceSpec extends Specification with Specs2RouteTest with HttpService wi
   val db = client("books")
   val collection = db("books")
   val uri = "/api/v1/books"
+  val bookId = 1234
 
   def actorRefFactory = system
   def before = db.dropDatabase()
 
   sequential
 
-  "GET" should {
+  s"GET $uri" should {
 
     "return OK" in {
       Get(uri) ~> route ~> check {
@@ -47,10 +53,31 @@ class ServiceSpec extends Specification with Specs2RouteTest with HttpService wi
 
   }
 
-  "PUT" should {
+//  s"GET /_id/$bookId" should {
+//
+//    "return OK" in {
+//      Get(s"$uri/$bookId") ~> route ~> check {
+//        response.status must equalTo(OK)
+//      }
+//    }
+//
+//    "return all books" in {
+//      val expected = insertBooks(3).map { book =>
+//        BookReduced(book._id, book.title, book.author)
+//      }
+//      Get(uri) ~> route ~> check {
+//        response.entity must not equalTo None
+//        val books = responseAs[List[BookReduced]]
+//        books must haveSize(expected.size)
+//        books must equalTo(expected)
+//      }
+//    }
+//
+//  }
 
-    val id = 1234
-    val expected = Book(id, "PUT title", "Put author", "Put description")
+  s"PUT $uri" should {
+
+    val expected = Book(bookId, "PUT title", "Put author", "Put description")
 
     "return OK" in {
       Put(uri, expected) ~> route ~> check {
@@ -69,7 +96,7 @@ class ServiceSpec extends Specification with Specs2RouteTest with HttpService wi
     "insert book to the DB" in {
       Put(uri, expected) ~> route ~> check {
         response.status must equalTo(OK)
-        val book = getBook(id)
+        val book = getBook(bookId)
         book must equalTo(expected)
       }
     }
@@ -78,7 +105,7 @@ class ServiceSpec extends Specification with Specs2RouteTest with HttpService wi
       collection.insert(grater[Book].asDBObject(expected))
       Put(uri, expected) ~> route ~> check {
         response.status must equalTo(OK)
-        val book = getBook(id)
+        val book = getBook(bookId)
         book must equalTo(expected)
       }
     }

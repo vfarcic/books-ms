@@ -10,7 +10,10 @@ import com.novus.salat.global._
 import com.mongodb.casbah.MongoClient
 
 case class BookReduced(_id: Int, title: String, author: String)
-case class Book(_id: Int, title: String, author: String, description: String)
+case class Book(_id: Int, title: String, author: String, description: String) {
+  require(!title.isEmpty)
+  require(!author.isEmpty)
+}
 
 class ServiceActor extends Actor with ServiceRoute {
 
