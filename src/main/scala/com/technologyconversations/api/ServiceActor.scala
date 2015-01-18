@@ -36,6 +36,15 @@ trait ServiceRoute extends HttpService with DefaultJsonProtocol {
         complete(
           collection.find().toList.map(grater[BookReduced].asObject(_))
         )
+      } ~ put {
+        entity(as[Book]) { book =>
+          collection.update(
+            MongoDBObject("_id" -> book._id),
+            grater[Book].asDBObject(book),
+            upsert = true
+          )
+          complete(book)
+        }
       }
     }
   }

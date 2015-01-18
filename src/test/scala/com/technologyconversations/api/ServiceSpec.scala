@@ -1,28 +1,31 @@
 package com.technologyconversations.api
 
+import com.mongodb.casbah.Imports._
 import com.mongodb.casbah.MongoClient
 import com.mongodb.casbah.commons.MongoDBObject
 import com.novus.salat._
 import com.novus.salat.global._
 import org.specs2.mutable.Specification
+import org.specs2.specification.BeforeExample
 import spray.routing.HttpService
 import spray.testkit.Specs2RouteTest
 import spray.http.StatusCodes._
 
-//import spray.json.DefaultJsonProtocol
 import spray.httpx.SprayJsonSupport._
 
-class ServiceSpec extends Specification with Specs2RouteTest with HttpService with ServiceRoute {
-
-  def actorRefFactory = system
+class ServiceSpec extends Specification with Specs2RouteTest with HttpService with ServiceRoute with BeforeExample {
 
   val client = MongoClient("localhost", 27017)
-  val db = client("test-books")
+  val db = client("books")
   val collection = db("books")
+  val uri = "/api/v1/books"
 
-  "Get" should {
+  def actorRefFactory = system
+  def before = db.dropDatabase()
 
-    val uri = "/api/v1/books"
+  sequential
+
+  "GET" should {
 
     "return OK" in {
       Get(uri) ~> route ~> check {
@@ -31,7 +34,6 @@ class ServiceSpec extends Specification with Specs2RouteTest with HttpService wi
     }
 
     "return all books" in {
-      deleteBooks()
       val expected = insertBooks(3).map { book =>
         BookReduced(book._id, book.title, book.author)
       }
@@ -45,8 +47,42 @@ class ServiceSpec extends Specification with Specs2RouteTest with HttpService wi
 
   }
 
-  def deleteBooks(): Unit = {
-    collection.remove(MongoDBObject.empty)
+  "PUT" should {
+
+    val id = 1234
+    val expected = Book(id, "PUT title", "Put author", "Put description")
+
+    "return OK" in {
+      Put(uri, expected) ~> route ~> check {
+        response.status must equalTo(OK)
+      }
+    }
+
+    "return Book" in {
+      Put(uri, expected) ~> route ~> check {
+        response.entity must not equalTo None
+        val book = responseAs[Book]
+        book must equalTo(expected)
+      }
+    }
+
+    "insert book to the DB" in {
+      Put(uri, expected) ~> route ~> check {
+        response.status must equalTo(OK)
+        val book = getBook(id)
+        book must equalTo(expected)
+      }
+    }
+
+    "update book when it exists in the DB" in {
+      collection.insert(grater[Book].asDBObject(expected))
+      Put(uri, expected) ~> route ~> check {
+        response.status must equalTo(OK)
+        val book = getBook(id)
+        book must equalTo(expected)
+      }
+    }
+
   }
 
   def insertBooks(quantity: Int): List[Book] = {
@@ -55,6 +91,11 @@ class ServiceSpec extends Specification with Specs2RouteTest with HttpService wi
       collection.insert(grater[Book].asDBObject(book))
     }
     books
+  }
+
+  def getBook(id: Int): Book = {
+    val dbObject = collection.findOne(MongoDBObject("_id" -> id))
+    grater[Book].asObject(dbObject.get)
   }
 
 }
