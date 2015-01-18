@@ -2,7 +2,7 @@ name := "books-service"
 
 version := "1.0"
 
-resolvers     += "spray" at "http://repo.spray.io/"
+resolvers += "spray" at "http://repo.spray.io/"
 
 libraryDependencies ++= {
   val akkaV = "2.3.0"
