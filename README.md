@@ -29,3 +29,13 @@ Package
 sbt assembly
 sudo docker build -t books-service .
 ```
+
+Run
+===
+
+```bash
+sudo docker run -d --name books-service \
+  -p 8080:8080 \
+  -v /data/db:/data/db \
+  books-service
+```

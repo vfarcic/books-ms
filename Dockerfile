@@ -2,27 +2,27 @@
 FROM ubuntu:14.04
 MAINTAINER Viktor Farcic "viktor@farcic.com"
 
-# General
-RUN apt-get update
-RUN apt-get -y install --no-install-recommends openjdk-7-jdk && \
-    apt-get -y autoremove && \
-    apt-get clean all
-
-# MongoDB
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
-    echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' > /etc/apt/sources.list.d/mongodb.list && \
-    apt-get update && \
-    apt-get install -y mongodb-org && \
+# Packages
+RUN echo "deb mirror://mirrors.ubuntu.com/mirrors.txt utopic main restricted universe multiverse \n\
+    deb mirror://mirrors.ubuntu.com/mirrors.txt utopic-updates main restricted universe multiverse \n\
+    deb mirror://mirrors.ubuntu.com/mirrors.txt utopic-backports main restricted universe multiverse \n\
+    deb mirror://mirrors.ubuntu.com/mirrors.txt utopic-security main restricted universe multiverse" > /etc/apt/sources.list.d/all-mirrors.list
+RUN apt-get update && \
+    apt-get -y install --no-install-recommends openjdk-7-jdk mongodb && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# MongoDB files
+RUN mkdir -p /data/db
 VOLUME ["/data/db"]
-# mongod
 
 # Service
-COPY target/scala-2.10/books-service-assembly-1.0.jar /bs/bs.jar
-WORKDIR /bs
+ADD target/scala-2.10/books-service-assembly-1.0.jar /bs.jar
 
 # Default command
-CMD ["java", "-jar", "bs.jar"]
+ADD run.sh /run.sh
+RUN chmod +x /run.sh
+CMD ["/run.sh"]
 
 EXPOSE 8080
 EXPOSE 27017
