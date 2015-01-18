@@ -34,7 +34,21 @@ trait ServiceRoute extends HttpService with DefaultJsonProtocol {
   val collection: MongoCollection
 
   val route = pathPrefix("api" / "v1" / "books") {
-    pathEnd {
+    path("_id" / IntNumber) { id =>
+      get {
+        complete(
+          grater[Book].asObject(
+            collection.findOne(MongoDBObject("_id" -> id)).get
+          )
+        )
+      } ~ delete {
+        complete(
+          grater[Book].asObject(
+            collection.findAndRemove(MongoDBObject("_id" -> id)).get
+          )
+        )
+      }
+    } ~ pathEnd {
       get {
         complete(
           collection.find().toList.map(grater[BookReduced].asObject(_))
