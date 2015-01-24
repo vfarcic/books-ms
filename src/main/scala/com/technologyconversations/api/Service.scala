@@ -1,11 +1,10 @@
 package com.technologyconversations.api
 
 import akka.actor.{Props, ActorSystem}
+import akka.io.IO
+import spray.can.Http
 
 object Service extends App {
-
-  import akka.io.IO
-  import spray.can.Http
 
   implicit val system = ActorSystem("routingSystem")
   val service = system.actorOf(Props[ServiceActor], "service")

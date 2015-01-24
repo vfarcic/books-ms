@@ -1,7 +1,7 @@
 Microservices Development with Scala, Spray, MongoDB, Docker and Ansible
 ========================================================================
 
-This article tries to provide one possible approach to building microservices. In this particular case we'll use [Scala](http://www.scala-lang.org/) as programming language. API will be RESTful JSON provided by [Spray](http://spray.io/). [MongoDB](http://www.mongodb.org/) will be used as database. Once everything is done we'll pack it all into a Docker container. [Vagrant](https://www.vagrantup.com/) with [Ansible](http://www.ansible.com/home) will take care of our environment and configuration management needs.
+This article tries to provide one possible approach to building microservices. In this particular case we'll use [Scala](http://www.scala-lang.org/) as programming language. API will be RESTful JSON provided by [Spray](http://spray.io/) and [AKKA](http://akka.io/). [MongoDB](http://www.mongodb.org/) will be used as database. Once everything is done we'll pack it all into a Docker container. [Vagrant](https://www.vagrantup.com/) with [Ansible](http://www.ansible.com/home) will take care of our environment and configuration management needs.
 
  We'll do the books service. It should be able to do following:
 
@@ -9,6 +9,8 @@ This article tries to provide one possible approach to building microservices. I
 * Retrieve all information related to a book
 * Update an existing book
 * Delete an existing book
+
+This article will not try to teach everything one should know about Scala, Spray, Akka, MongoDB, Docker, Vagrant, Ansible, TDD, etc. There's no single article that can do that. The goal is to show the flow and setup that one might use when developing services. Actually, most of this article is equally relevant for other types of developments. Docker has much broader usage than microservices, Ansible and CM in general should be used for any types of provisioning, Vagrant is very useful for quick creation of virtual machines, etc.
 
 Environment
 -----------
@@ -120,3 +122,7 @@ That's it regarding the data storage. We have the MongoDB container up and runni
 
 Books Service
 -------------
+
+I love [Scala](http://www.scala-lang.org/) and [AKKA](http://akka.io/). Scala is a very powerful language and AKKA is my favourite framework for building message driven applications JVM. While it was born from Scala, AKKA can be used with Java as well.
+
+[Spray](http://spray.io/) is simple yet very powerful toolkit for building REST/HTTP based applications. It's asynchronuous, uses AKKA actors and has a great (if weird at the beginning) DSL for defining HTTP routes.

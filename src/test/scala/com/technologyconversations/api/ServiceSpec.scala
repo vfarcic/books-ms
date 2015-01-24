@@ -33,7 +33,6 @@ class ServiceSpec extends Specification with Specs2RouteTest with HttpService wi
 
   s"GET $uri" should {
 
-
     "return OK" in {
       Get(uri) ~> route ~> check {
         response.status must equalTo(OK)
