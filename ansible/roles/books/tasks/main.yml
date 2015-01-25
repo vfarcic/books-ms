@@ -1,0 +1,13 @@
+- name: Directory is present
+  file:
+    path=/data/db
+    state=directory
+  tags: [mongodb]
+
+- name: Container is running
+  docker:
+    name=books-service
+    image=vfarcic/books-service
+    ports=8080:8080
+    volumes=/data/db:/data/db
+  tags: [mongodb]
