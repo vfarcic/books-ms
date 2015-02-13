@@ -17,4 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :prod do |prod|
     prod.vm.provision :shell, inline: 'ansible-playbook /vagrant/ansible/prod.yml -c local'
   end
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
 end
