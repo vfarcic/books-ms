@@ -12,12 +12,15 @@ libraryDependencies ++= {
     "io.spray"                  %   "spray-can"       % sprayV,
     "io.spray"                  %   "spray-routing"   % sprayV,
     "io.spray"                  %%  "spray-json"      % "1.2.6",
-    "io.spray"                  %   "spray-testkit"   % sprayV    % "test",
     "com.typesafe.akka"         %%  "akka-actor"      % akkaV,
-    "org.specs2"                %%  "specs2-core"     % specs2V   % "test",
     "org.mongodb"               %%  "casbah"          % "2.7.2",
     "com.novus"                 %%  "salat"           % "1.9.8",
     "org.slf4j"                 %   "slf4j-api"       % "1.7.7",
-    "ch.qos.logback"            %   "logback-classic" % "1.0.3"
+    "ch.qos.logback"            %   "logback-classic" % "1.0.3",
+    "io.spray"                  %   "spray-testkit"   % sprayV    % "test",
+    "org.specs2"                %%  "specs2-core"     % specs2V   % "test",
+    "org.scalaj"                %%  "scalaj-http"     % "1.1.4"
   )
 }
+
+test in assembly := {}

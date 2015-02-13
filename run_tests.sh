@@ -2,6 +2,12 @@
 
 set -e
 
-mongod &
-sbt assembly
-mongod --shutdown
+if [ "$TEST_TYPE" = "integ" ]
+then
+  sbt "testOnly *Integ"
+else
+  mongod &
+  sbt "testOnly *Spec"
+  sbt assembly
+  mongod --shutdown
+fi
