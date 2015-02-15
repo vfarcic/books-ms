@@ -1,3 +1,6 @@
 #!/bin/bash
 
-tar --transform='s|Dockerfile.test|Dockerfile|' -cz * | docker build -t vfarcic/books-service-tests -
+mv Dockerfile Dockerfile.orig
+cp Dockerfile.test Dockerfile
+docker build -t vfarcic/books-service-tests .
+mv Dockerfile.orig Dockerfile
