@@ -8,6 +8,7 @@ import com.mongodb.casbah.Imports._
 import com.novus.salat._
 import com.novus.salat.global._
 import com.mongodb.casbah.MongoClient
+import scala.util.Properties._
 
 case class BookReduced(_id: Int, title: String, author: String)
 case class Book(_id: Int, title: String, author: String, description: String) {
@@ -17,10 +18,12 @@ case class Book(_id: Int, title: String, author: String, description: String) {
 
 class ServiceActor extends Actor with ServiceRoute {
 
-  val config = context.system.settings.config
-  val client = MongoClient(config.getString("books.db.host"), config.getInt("books.db.port"))
-  val db = client(config.getString("books.db.db"))
-  val collection = db(config.getString("books.db.collection"))
+  val client = MongoClient(
+    envOrElse("DB_PORT_27017_TCP_ADDR", "localhost"),
+    envOrElse("DB_PORT_27017_TCP_PORT", "27017").toInt
+  )
+  val db = client(envOrElse("DB_NAME", "books"))
+  val collection = db(envOrElse("DB_COLLECTION", "books"))
 
   def actorRefFactory = context
   def receive = runRoute(route)
