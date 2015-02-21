@@ -22,7 +22,7 @@ class ServiceActor extends Actor with ServiceRoute {
     envOrElse("DB_PORT_27017_TCP_ADDR", "localhost"),
     envOrElse("DB_PORT_27017_TCP_PORT", "27017").toInt
   )
-  val db = client(envOrElse("DB_NAME", "books"))
+  val db = client(envOrElse("DB_DBNAME", "books"))
   val collection = db(envOrElse("DB_COLLECTION", "books"))
 
   def actorRefFactory = context

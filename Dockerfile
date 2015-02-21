@@ -20,6 +20,8 @@ VOLUME ["/data/db"]
 ADD target/scala-2.10/books-service-assembly-1.0.jar /bs.jar
 
 # Default command
+ENV DB_DBNAME books
+ENV DB_COLLECTION books
 ADD run.sh /run.sh
 RUN chmod +x /run.sh
 CMD ["/run.sh"]
