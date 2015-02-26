@@ -1,11 +1,11 @@
 - name: Scala is downloaded
   get_url:
-    url=http://www.scala-lang.org/files/archive/scala-2.11.2.deb
-    dest=/tmp/scala-2.11.2.deb
+    url=http://www.scala-lang.org/files/archive/scala-2.11.5.deb
+    dest=/tmp/scala-2.11.5.deb
 
 - name: Scala is present
   apt:
-    deb=/tmp/scala-2.11.2.deb
+    deb=/tmp/scala-2.11.5.deb
   tags: [scala]
 
 - name: Download SBT
