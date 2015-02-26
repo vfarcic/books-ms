@@ -1,0 +1,6 @@
+- name: Package are present
+  apt:
+    name=openjdk-7-jdk
+    state=present
+  with_items: packages
+  tags: [java]
