@@ -1,5 +1,16 @@
+- name: Add Docker repository and update apt cache
+  apt_repository:
+    repo: deb http://get.docker.io/ubuntu docker main
+    update_cache: yes
+    state: present
+  tags: [docker]
+
 - name: Docker is present
-  apt: name=docker.io state=present
+  apt:
+    name: lxc-docker
+    state: latest
+    update_cache: yes
+    force: yes
   tags: [docker]
 
 - name: Python-pip is present
