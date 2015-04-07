@@ -1,6 +1,7 @@
 package com.technologyconversations.api
 
 import akka.actor.Actor
+import spray.http.HttpHeaders.RawHeader
 import spray.json.DefaultJsonProtocol
 import spray.routing.HttpService
 import spray.httpx.SprayJsonSupport._
@@ -26,7 +27,10 @@ class ServiceActor extends Actor with ServiceRoute {
   val collection = db(envOrElse("DB_COLLECTION", "books"))
 
   def actorRefFactory = context
-  def receive = runRoute(route)
+  def receive = runRoute {
+    respondWithHeaders(RawHeader("Access-Control-Allow-Origin", "*"))
+    { route }
+  }
 
 }
 
