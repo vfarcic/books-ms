@@ -23,7 +23,7 @@ ADD src /source/src
 ADD build.sbt /source/build.sbt
 ADD run_tests.sh /source/run_tests.sh
 
-RUN sbt classes
+RUN sbt test:compile
 
 ENV TEST_TYPE "spec"
 ENV DOMAIN "http://172.17.42.1"
