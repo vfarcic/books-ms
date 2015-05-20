@@ -20,7 +20,7 @@ case class Book(_id: Int, title: String, author: String, description: String) {
 class ServiceActor extends Actor with ServiceRoute {
 
   val address = envOrElse("DB_PORT_27017_TCP", "localhost:27017")
-  val client = MongoClient(MongoClientURI(s"mongodb://$address"))
+  val client = MongoClient(MongoClientURI(s"mongodb://$address/"))
   val db = client(envOrElse("DB_DBNAME", "books"))
   val collection = db(envOrElse("DB_COLLECTION", "books"))
 
