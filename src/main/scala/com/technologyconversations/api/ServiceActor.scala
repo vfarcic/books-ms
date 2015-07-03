@@ -1,5 +1,7 @@
 package com.technologyconversations.api
 
+import java.io.File
+
 import akka.actor.Actor
 import spray.http.HttpHeaders.RawHeader
 import spray.json.DefaultJsonProtocol
@@ -17,7 +19,7 @@ case class Book(_id: Int, title: String, author: String, description: String) {
   require(!author.isEmpty)
 }
 
-class ServiceActor extends Actor with ServiceRoute {
+class ServiceActor extends Actor with ServiceRoute with StaticRoute {
 
   val address = envOrElse("DB_PORT_27017_TCP", "localhost:27017")
   val client = MongoClient(MongoClientURI(s"mongodb://$address/"))
@@ -27,7 +29,15 @@ class ServiceActor extends Actor with ServiceRoute {
   def actorRefFactory = context
   def receive = runRoute {
     respondWithHeaders(RawHeader("Access-Control-Allow-Origin", "*"))
-    { route }
+    { serviceRoute ~ staticRoute }
+  }
+
+}
+
+trait StaticRoute extends HttpService {
+
+  val staticRoute = pathPrefix("") {
+    getFromDirectory("client/")
   }
 
 }
@@ -38,7 +48,7 @@ trait ServiceRoute extends HttpService with DefaultJsonProtocol {
   implicit val booksFormat = jsonFormat4(Book)
   val collection: MongoCollection
 
-  val route = pathPrefix("api" / "v1" / "books") {
+  val serviceRoute = pathPrefix("api" / "v1" / "books") {
     path("_id" / IntNumber) { id =>
       get {
         complete(
