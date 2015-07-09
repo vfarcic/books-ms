@@ -1,3 +1,5 @@
-.idea
-target
-.vagrant
+/.idea
+/target
+/.vagrant
+/*.log
+/project

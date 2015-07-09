@@ -27,3 +27,5 @@ ENV TEST_TYPE "spec"
 ENV DOMAIN "http://172.17.42.1"
 VOLUME ["/source/target/scala-2.10", "/root/.ivy2/cache"]
 CMD ["/source/run_tests.sh"]
+
+EXPOSE 8080
