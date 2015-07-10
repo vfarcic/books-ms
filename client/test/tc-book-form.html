@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+    <script src="../bower_components/test-fixture/test-fixture-mocha.js"></script>
+
+    <link rel="import" href="../bower_components/polymer/polymer.html">
+    <link rel="import" href="../bower_components/test-fixture/test-fixture.html">
+    <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+    <link rel="import" href="../bower_components/paper-button/paper-button.html">
+    <link rel="import" href="../bower_components/paper-input/paper-input.html">
+    <link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+    <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+
+    <link rel="import" href="../components/tc-books/tc-book-form.html">
+
+</head>
+<body>
+
+<test-fixture id="fixture">
+    <template>
+        <tc-book-form></tc-book-form>
+    </template>
+</test-fixture>
+
+<script>
+
+    describe('tc-book-form', function() {
+
+        var myEl;
+
+        before(function() {
+            myEl = fixture('fixture');
+        });
+
+        it('false test', function() {
+            assert.isTrue(true);
+        });
+
+    });
+</script>
+
+</body>
+</html>
