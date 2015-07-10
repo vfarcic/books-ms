@@ -1,31 +1,62 @@
 # Version: 0.1
-FROM ubuntu:14.04
+FROM debian:jessie
 MAINTAINER Viktor Farcic "viktor@farcic.com"
 
-# Packages
+RUN apt-get update
+
+# CUrl
+RUN apt-get -y install curl
+
+# Dependencies
+RUN curl -sL https://deb.nodesource.com/setup_0.12 | bash -
+RUN echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
+RUN curl -sL https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
+RUN echo "deb http://packages.linuxmint.com debian import" >> /etc/apt/sources.list
+
+
+# Mongo, NodeJS, Git, SBT, xvfb, FireFox
 RUN apt-get update && \
-    apt-get -y install --no-install-recommends openjdk-7-jdk mongodb wget && \
+    apt-get -y install gconf-service libgconf-2-4 libpango1.0-0 libxss1 libxtst6 libappindicator1 xdg-utils libasound2 wget && \
+    apt-get -y --force-yes install --no-install-recommends mongodb nodejs git sbt xvfb firefox && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-RUN wget -q http://downloads.typesafe.com/scala/2.11.5/scala-2.11.5.deb && \
+
+# Chrome
+RUN curl -O -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    dpkg -i google-chrome-stable_current_amd64.deb && \
+    rm google-chrome-stable_current_amd64.deb
+
+# Scala
+RUN curl -O -q http://downloads.typesafe.com/scala/2.11.5/scala-2.11.5.deb && \
     dpkg -i scala-2.11.5.deb && \
     rm scala-2.11.5.deb
-RUN wget -q https://dl.bintray.com/sbt/debian/sbt-0.13.7.deb && \
-    dpkg -i sbt-0.13.7.deb && \
-    rm sbt-0.13.7.deb
 
+# Gulp, bower
+RUN npm install -g gulp bower
+RUN npm install web-component-tester
+
+# Dirs
 RUN mkdir /source
 RUN mkdir -p /data/db
-
 WORKDIR /source
+
+# TODO: Remove
 ADD project /source/project
+# TODO: Remove
 ADD src /source/src
+# TODO: Remove
 ADD build.sbt /source/build.sbt
+# TODO: Remove
 ADD run_tests.sh /source/run_tests.sh
 
+# Envs
 ENV TEST_TYPE "spec"
 ENV DOMAIN "http://172.17.42.1"
+ENV DISPLAY ":1.0"
+
 VOLUME ["/source/target/scala-2.10", "/root/.ivy2/cache"]
+
 CMD ["/source/run_tests.sh"]
 
 EXPOSE 8080
