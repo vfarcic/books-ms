@@ -36,10 +36,3 @@ This command runs Docker container **books-service-test** that contains everythi
 With back-end up and running and tests being executed every time we change client source code, we're ready to start developing the front-end with Polymer. Docker container that we just run contains both Chrome and Firefox. In the future we could add more browsers to the container but, for now, those two should suffice.
 
 Now that we are all set, let's start writing tests and implementation of our first Polymer Web Component.
-
-TODO
-====
-
-* Change Ubuntu to Debian in Dockerfile
-* Push to Docker Hub
-* Merge to master
