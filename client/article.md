@@ -35,4 +35,26 @@ This command runs Docker container **books-service-test** that contains everythi
 
 With back-end up and running and tests being executed every time we change client source code, we're ready to start developing the front-end with Polymer. Docker container that we just run contains both Chrome and Firefox. In the future we could add more browsers to the container but, for now, those two should suffice.
 
+Requirements
+============
+
+The idea is to build an online shop. Since we are using microservices, each domain of the application will have its own service. In this article we'll be working on Web Components parts of the service dedicate to listing and administration of books. The other parts of the application (authentication, shopping cart, etc) would be developed as a separate microservice.
+ 
+Now that we have a high level overview, let's define what will be our first Polymer Web Component. We'll develop a form that will allow us to insert, update or delete a book. This component will perform all those actions by calling the back-end part of the same service. As said before, to make things easier, back-end is already developed.
+
+** TODO: Add book-form.png**
+
+There should be four fields (ID, Title, Author and Description) and two buttons (Delete and Submit).
+
 Now that we are all set, let's start writing tests and implementation of our first Polymer Web Component.
+
+Polymer Web Component Test-Driven Development
+=============================================
+
+Open both client/test/tc-book-form.html and client/components/tc-books/tc-book-form.html. The first one will contain tests while we'll write implementation of those tests. First we'll write a test (and save changes). Docker container that we run earlier will detect changes and run all front-end tests. Since at this point we didn't write the implementation, the test will fail. Confirming failure is important since we want to avoid creating false positive tests; those that are passing no matter the state of the implementation code. From there one we'll write implementation of the test (and save changes). As before, container will detect changes and run tests again. This time, if the implementation is correct, all tests should pass. At this point we'll refactor the code if we feel that such an action is needed. Since we have the safety net in for of tests, refactoring will be a safe thing to do. This cycle is called [Red-Green-Refactor](TODO) and  we'll repeat it until the Polymer Component is finished and working as we expect it to work.
+
+**TODO: Add IDEA code/tests windows screenshot**
+
+I tend to split my screen into two windows side by side. On one is the code (tests or implementation) and the other one is the console output from tests. That way I receive constant feedback from tests without switching between windows.
+
+
