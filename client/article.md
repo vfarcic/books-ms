@@ -856,30 +856,6 @@ This article is finished and we have a working version of our books form. You ca
 
 While what we did works, it is far from being complete. We cannot open an existing book, error handling from **iron-ajax** components is not yet implemented and users of our component cannot be notified of what happened. These and few other improvements will be the subject of the [next article](TODO).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Now that we have a way to sent a PUT request to the back-end server, we should create functions that will handle responses. We should define two. One when the response is 200 and the other when the server returns an error.
-
-
-
-
 TODO
 ====
 
