@@ -852,13 +852,15 @@ The implementation is following.
 <paper-button id="submit" on-tap="_submit">[[submitText]]</paper-button>
 ```
 
+To Be Continued
+===============
+
 This article is finished and we have a working version of our books form. You can see the result by opening [http://localhost:8080/components/tc-books/demo/index.html](http://localhost:8080/components/tc-books/demo/index.html). Enter some data, click the **Submit** button and a new book will be stored in the database. Modify data of a book and click **Submit** again and data will be updated. **Delete** button has the obvious function. We can see the result of different operations by directly querying the back-end on [http://localhost:8080/api/v1/books](http://localhost:8080/api/v1/books).
 
+If you had trouble following the examples, the complete source code can be found in the [polymer-book-form](https://github.com/vfarcic/books-service/tree/polymer-book-form) branch of the [books-service](https://github.com/vfarcic/books-service) repository.
+
+```bash
+git checkout polymer-book-form
+```
+
 While what we did works, it is far from being complete. We cannot open an existing book, error handling from **iron-ajax** components is not yet implemented and users of our component cannot be notified of what happened. These and few other improvements will be the subject of the [next article](TODO).
-
-TODO
-====
-
-* Push new version of the container
-* Update Dockerfile and wct.conf.js to all branches
-* Modify Dockerfile to include front-end
