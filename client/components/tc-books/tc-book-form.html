@@ -1,7 +1,64 @@
 <dom-module id="tc-book-form">
     <style>
+        /*.mainButton {*/
+            /*color: var(--button-main-color);*/
+            /*background: var(--button-main-background);*/
+        /*}*/
+        /*.warningButton {*/
+            /*color: var(--button-warning-color);*/
+            /*background: var(--button-warning-background);*/
+        /*}*/
     </style>
     <template>
+        <!--<iron-ajax id="getAjax"-->
+                   <!--on-error="_handleGetError"-->
+                   <!--on-response="_handleGetResponse">-->
+        <!--</iron-ajax>-->
+        <iron-ajax id="putAjax"
+                   method="PUT"
+                   on-response="_handlePutResponse"
+                   on-error="_handlePutError"
+                   content-type="application/json"
+                   url="[[requestUrl]]">
+        </iron-ajax>
+        <iron-ajax id="deleteAjax"
+                   method="DELETE"
+                   on-response="_handleDeleteResponse"
+                   on-error="_handleDeleteError">
+        </iron-ajax>
+        <div>
+            <form id="form">
+                <paper-input id="_id"
+                             label="ID"
+                             value="{{_data._id}}"
+                             auto-validate
+                             pattern="[1-9][0-9]*"
+                             required
+                             error-message="Must be a number">
+                </paper-input>
+                <paper-input id="title"
+                             label="Title"
+                             value="{{_data.title}}"
+                             auto-validate
+                             required
+                             error-message="Title is required">
+                </paper-input>
+                <paper-input id="author"
+                             label="Author"
+                             value="{{_data.author}}"
+                             auto-validate
+                             required
+                             error-message="Author is required">
+                </paper-input>
+                <paper-input id="description"
+                             label="Description"
+                             value="{{_data.description}}">
+                </paper-input>
+                <paper-button id="delete" class="warningButton" raised on-tap="_delete">[[deleteText]]</paper-button>
+                <paper-button id="submit" class="mainButton" raised on-tap="_submit">[[submitText]]</paper-button>
+            </form>
+        </div>
+        <paper-toast id="toast" text="[[errorText]]"></paper-toast>
     </template>
 </dom-module>
 <script>
@@ -9,6 +66,80 @@
         Polymer({
             is: 'tc-book-form',
             properties: {
+                requestUrl: {
+                    type: String,
+                    value: '/api/v1/books'
+                },
+                errorText: {
+                    type: String,
+                    value: 'Something, somewhere, went wrong'
+                },
+                submitText: {
+                    type: String,
+                    value: 'Submit'
+                },
+                deleteText: {
+                    type: String,
+                    value: 'Delete'
+                },
+                _data: {
+                    type: Object,
+                    value: {}
+                }
+            },
+//            open: function(bookId) {
+//                if (bookId > 0) {
+//                    this.$.getAjax.url = this.requestUrl + '/_id/' + bookId;
+//                    this.$.getAjax.generateRequest();
+//                    this.$.delete.hidden = false;
+//                } else {
+//                    this._data = {description: ''};
+//                    this.$.delete.hidden = true;
+//                }
+//            },
+//            ready: function() {
+//                this.open(0);
+//            },
+            _handleError: function(text) {
+                this.errorText = text;
+                this.$.toast.show();
+            },
+//            _handleGetError: function() {
+//                this._handleError('The book could not be retrieved from the server');
+//            },
+//            _handlePutError: function() {
+//                this._handleError('The book could not be stored in the server');
+//            },
+//            _handlePutResponse: function() {
+//                this.fire('putBook', this._data);
+//                this.$.delete.hidden = false;
+//            },
+            _submit: function() {
+                if (this.$.form.checkValidity()) {
+                    // This is a workaround.
+                    // _id should be sent as number
+                    this.set('_data._id', parseInt(this._data._id));
+                    // iron-ajax does not stringify object
+                    this.$.putAjax.body = JSON.stringify(this._data);
+                    this.$.putAjax.generateRequest();
+                } else {
+                    this._handleError('At least one field is invalid.');
+                }
+//            },
+//            _handleGetResponse: function(e) {
+//                this._data = e.detail.response;
+            },
+            _delete: function() {
+                this.$.deleteAjax.url = this.requestUrl + '/_id/' + this._data._id;
+                this.$.deleteAjax.generateRequest();
+//            },
+//            _handleDeleteResponse: function() {
+//                var data = this._data;
+//                this.open(0);
+//                this.fire('deleteBook', data);
+//            },
+//            _handleDeleteError: function() {
+//                this._handleError('The book could not be removed from the server');
             }
         });
     })();
