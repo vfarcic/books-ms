@@ -21,13 +21,13 @@
                    content-type="application/json"
                    url="[[requestUrl]]">
         </iron-ajax>
-        <!--<iron-ajax id="deleteAjax"-->
-                   <!--method="DELETE"-->
-                   <!--on-response="_handleDeleteResponse"-->
-                   <!--on-error="_handleDeleteError">-->
-        <!--</iron-ajax>-->
+        <iron-ajax id="deleteAjax"
+                   method="DELETE"
+                   on-response="_handleDeleteResponse"
+                   on-error="_handleDeleteError">
+        </iron-ajax>
         <!--<div>-->
-            <!--<form id="form">-->
+            <form id="form">
                 <paper-input id="_id"
                              label="ID"
                              value="{{_data._id}}"
@@ -54,11 +54,11 @@
                                 label="Description"
                                 value="{{_data.description}}">
                 </paper-input>
-                <!--<paper-button id="delete" class="warningButton" raised on-tap="_delete">[[deleteText]]</paper-button>-->
+                <paper-button id="delete" class="warningButton" raised on-tap="_delete">[[deleteText]]</paper-button>
                 <!--<paper-button id="submit" class="mainButton" raised on-tap="_submit">[[submitText]]</paper-button>-->
-            <!--</form>-->
+            </form>
         <!--</div>-->
-        <!--<paper-toast id="toast" text="[[errorText]]"></paper-toast>-->
+        <paper-toast id="toast" text="[[errorText]]"></paper-toast>
     </template>
 </dom-module>
 <script>
@@ -70,23 +70,23 @@
                     type: String,
                     value: '/api/v1/books'
                 },
-//                errorText: {
-//                    type: String,
-//                    value: 'Something, somewhere, went wrong'
-//                },
+                errorText: {
+                    type: String,
+                    value: 'Something, somewhere, went wrong'
+                },
 //                submitText: {
 //                    type: String,
 //                    value: 'Submit'
 //                },
-//                deleteText: {
-//                    type: String,
-//                    value: 'Delete'
-//                },
+                deleteText: {
+                    type: String,
+                    value: 'Delete'
+                },
                 _data: {
                     type: Object,
                     value: {}
                 }
-//            },
+            },
 //            open: function(bookId) {
 //                if (bookId > 0) {
 //                    this.$.getAjax.url = this.requestUrl + '/_id/' + bookId;
@@ -100,10 +100,10 @@
 //            ready: function() {
 //                this.open(0);
 //            },
-//            _handleError: function(text) {
-//                this.errorText = text;
-//                this.$.toast.show();
-//            },
+            _handleError: function(text) {
+                this.errorText = text;
+                this.$.toast.show();
+            },
 //            _handleGetError: function() {
 //                this._handleError('The book could not be retrieved from the server');
 //            },
@@ -114,24 +114,24 @@
 //                this.fire('putBook', this._data);
 //                this.$.delete.hidden = false;
 //            },
-//            _submit: function() {
-//                if (this.$.form.checkValidity()) {
-//                    // This is a workaround.
-//                    // _id should be sent as number
-//                    this.set('_data._id', parseInt(this._data._id));
-//                    // iron-ajax does not stringify object
-//                    this.$.putAjax.body = JSON.stringify(this._data);
-//                    this.$.putAjax.generateRequest();
-//                } else {
-//                    this._handleError('At least one field is invalid.');
-//                }
+            _submit: function() {
+                if (this.$.form.checkValidity()) {
+                    // This is a workaround.
+                    // _id should be sent as number
+                    this.set('_data._id', parseInt(this._data._id));
+                    // iron-ajax does not stringify object
+                    this.$.putAjax.body = JSON.stringify(this._data);
+                    this.$.putAjax.generateRequest();
+                } else {
+                    this._handleError('At least one field is invalid.');
+                }
 //            },
 //            _handleGetResponse: function(e) {
 //                this._data = e.detail.response;
-//            },
-//            _delete: function() {
-//                this.$.deleteAjax.url = this.requestUrl + '/_id/' + this._data._id;
-//                this.$.deleteAjax.generateRequest();
+            },
+            _delete: function() {
+                this.$.deleteAjax.url = this.requestUrl + '/_id/' + this._data._id;
+                this.$.deleteAjax.generateRequest();
 //            },
 //            _handleDeleteResponse: function() {
 //                var data = this._data;

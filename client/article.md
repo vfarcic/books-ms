@@ -3,7 +3,7 @@
 
 In this article we'll go through Web Components development in context of microservices. We'll use [Polymer](https://www.polymer-project.org) as the library that will help us out. The objective is to create a microservice that will handle full functionality. The service will contain not only back-end API (as is the case with most microservices) but also front-end in form of Web Components. Later on, when the time comes to use the service we're creating, we'll simply import Web Components. That is quite a different approach than what you might be used to. We won't create a Web Application that calls APIs handled by microservices. We'll import parts of the front-end from microservices. Our objective is to have a microservice that contains everything; from front-end to back-end. Please refer to the [TODO](TODO) article for more information that lead to this decision.
 
-Since I am a huge fan of [Test-Driven Development](TODO), everything we do will be done using test first approach. We'll write a test, run all tests and confirm that the last one fails, write implementation, run all tests and confirm that all passed. If you are new to TDD, please read the article [TODO](TODO).
+Since I am a huge fan of [Test-Driven Development](TODO), everything we do will be done using test first approach. We'll write a test, run all tests and confirm that the last one fails, write implementation, run all tests and confirm that all passed. Test will act as specifications. We'll use them to define what should be implemented. If you are new to TDD, please read the article [TODO](TODO).
 
 Since the objective is to focus on front-end part of the service we'll be creating, repository with fully operational back-end is already available.
 
@@ -62,6 +62,8 @@ I tend to split my screen into two windows side by side. On one is the code (tes
 
 The **client/test/tc-book-form.html** already contains all the prerequisites. Among other things, it has imports of all Polymer components that we'll use. We'll get into each of them soon as we progress with our tests.
 
+If, at any moment during the exercises provided below you feel the need to see the result, please open [http://localhost:8080/components/tc-books/demo/index.html](http://localhost:8080/components/tc-books/demo/index.html) in your favourite browser. While there is no real reason to do that often when developing using TDD, less experienced practitioners find it useful to manually confirm their work.
+
 The tag `test-fixture` is a handy way to declare a fixture that we'll be testing.
 
 ```html
@@ -74,7 +76,7 @@ The tag `test-fixture` is a handy way to declare a fixture that we'll be testing
 
 Finally, tests look like following.
 
-```js
+```javascript
 describe('tc-book-form', function() {
 
     var myEl;
@@ -96,7 +98,7 @@ At the moment we have only one (fake) test. It is defined with function `it`.
 
 Since tests are divided into different files, **client/test/index.html** is used as a holder where we can specify which suites to run.
 
-```js
+```javascript
 WCT.loadSuites([
     'tc-book-form.html',
     'tc-books.html'
@@ -107,15 +109,15 @@ Please explore the source code that we cloned previously for more details. Now, 
 
 **TODO: Reference to polymer-book-form branch**
 
-Defining _data property
-=======================
+_data Property Specification
+============================
 
 We need a property that we'll use to store the data that we'll collect through the form we are about to implement soon. In Polymer, [declared properties](https://www.polymer-project.org/1.0/docs/devguide/properties.html) are defined inside the `properties` object. I tend to declare both public and private properties inside the `properties` object and use *_* prefix to indicate that something is private.
 
 With that in mind, our first test could like like this.
 
 [client/test/tc-book-form.html]
-```js
+```javascript
 describe('_data property', function() {
 
     it('is defined', function() {
@@ -133,7 +135,7 @@ We are specifying that `_data` should be *defined* and is an *object*. As soon t
 The implementation is simple. Actually, when using TDD approach, changes are so small that it is almost always easy to implement a failed test.
 
 [client/components/tc-books/tc-book-form.html]
-```js
+```javascript
 <script>
     (function() {
         Polymer({
@@ -153,8 +155,8 @@ As before, as soon as the file **client/components/tc-books/tc-book-form.html** 
 
 **TODO: Insert first-test-success.png**
 
-Defining Input Elements
-=======================
+Input Elements Specifications
+=============================
 
 Since one of this component's primary functions is to add and update a book, we should define input elements. Back-end expect a request with following JSON keys: **_id**, **title**, **author** and **description**. Polymer has a very useful component called [paper-input](https://elements.polymer-project.org/elements/paper-input) that will provide all the feature we might need for our form fields.
 
@@ -163,7 +165,7 @@ With Polymer, all DOM elements should be defined inside **template** tags. More 
 Let's start with the **_id** input field. To begin with, it should be defined within our component. Polymer allows us to select any element with **$**.
 
 [client/test/tc-book-form.html]
-```js
+```javascript
 describe('_id element', function() {
 
     it('is defined', function() {
@@ -176,7 +178,7 @@ describe('_id element', function() {
 From now on I'll assume that you got used to writing a test, seeing it fail and only then writing the implementation.
 
 [client/components/tc-books/tc-book-form.html]
-```js
+```javascript
 <template>
     <paper-input id="_id"></paper-input>
 </template>
@@ -189,7 +191,7 @@ From now on, for brevity, I'll present all tests and implementation code related
 Our **_id** element, besides being defined, should have few more attributes and features. Test that define them are following.
 
 [client/test/tc-book-form.html]
-```js
+```javascript
     it('sets label', function() {
         assert.equal(myEl.$._id.label, 'ID');
     });
@@ -247,10 +249,12 @@ The implementation of all those tests is following.
 </template>
 ```
 
+Values inside **{{** and **}}** indicate a two-way binding. In the example above, whenever value of the property **_data._id** changes, **_id** element value will change as well. Same is true the other way around. Change to the **_id** element value will trigger the change to the **_data._id** property. Alternative is one-way binding that is set using square brackets (**[[** and **]]**).
+
 We should define the rest of fields in a similar manner as **_id**.
 
 [client/test/tc-book-form.html]
-```js
+```javascript
 describe('title element', function() {
 
     it('is defined', function() {
@@ -354,8 +358,8 @@ The implementation of those fields should be fairly simple are the experience we
 
 Now that we have all the fields and validation defined and implemented, let us work on a request that will send a request to back-end to add or update a book. 
 
-Defining PUT Request
-====================
+PUT Request Specifications
+==========================
 
 Back-end expects us to send a PUT request to the URL **/api/v1/books**. The request body should contain the JSON with all the fields.
 
@@ -364,7 +368,7 @@ Polymer has [iron-ajax](https://elements.polymer-project.org/elements/iron-ajax)
 Before we start working with **iron-ajax**, let us define a **requestUrl** property. We'll bind it to **iron-ajax** so that users of our component have the option to change the URL of the service if such a need arise.
 
 [client/test/tc-book-form.html]
-```js
+```javascript
 describe('requestUrl', function() {
 
     it('is defined', function() {
@@ -379,7 +383,7 @@ describe('requestUrl', function() {
 The implementation is following.
 
 [client/components/tc-books/tc-book-form.html]
-```js
+```javascript
 properties: {
     requestUrl: {
         type: String,
@@ -391,7 +395,414 @@ properties: {
 
 With the property defined, we can start working on the **iron-ajax** that we'll use to sent POST requests to our back-end.
 
-Definition is following.
+Specifications are following.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('putAjax element', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl.$.putAjax);
+    });
+
+    it('sets method to PUT', function() {
+        assert.equal(myEl.$.putAjax.method, 'PUT');
+    });
+
+    it('sets content-type', function() {
+        assert.equal(myEl.$.putAjax.contentType, 'application/json');
+    });
+
+    it('binds url to requestUrl property', function() {
+        myEl.requestUrl = '/api/my/service';
+
+        assert.equal(myEl.$.putAjax.url, myEl.requestUrl);
+    });
+
+});
+```
+
+The implementation of the specifications we wrote above is following.
+
+[client/components/tc-books/tc-book-form.html]
+```html
+<iron-ajax id="putAjax"
+           method="PUT"
+           content-type="application/json"
+           url="[[requestUrl]]">
+</iron-ajax>
+```
+
+Now that we have a way to sent a PUT request to the back-end server, we should create a function that validates data from the form, puts them to the putAjax body and initiates generation of the request.
+
+Submit Function Specifications
+==============================
+
+In order to validate data easily, we should wrap all our fields into an HTML **form** element.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('form element', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl.$.form);
+    });
+
+});
+```
+
+Implementation is a simple HTML tag around our input fields.
+
+[client/components/tc-books/tc-book-form.html]
+```html
+<form id="form">
+    <paper-input id="_id"
+                 label="ID"
+                 value="{{_data._id}}"
+                 auto-validate
+                 pattern="[1-9][0-9]*"
+                 required
+                 error-message="Must be a number">
+    </paper-input>
+...
+</form>
+```
+
+Now we are ready to start working on the **submit** function. Specifications that are defined below are a bit more complex than those we wrote before and might require a some explanation. You'll find comments above each function that requires further explanation.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('_submit function', function() {
+
+    var el;
+
+    // This function will run the code before each test
+    // defined inside this scope. In it, we are defining
+    // a mock object. We want, by default, form element's
+    // checkValidity function to always return true.
+    // There is another mock in it that substitutes the
+    // putAjax function generateRequest. We don't want
+    // tests to fire real requests and this mock will make
+    // sure that such a thing does not happen. We're using
+    // sinon library to create mock object.
+    beforeEach(function() {
+        el = fixture('fixture');
+        el.$.form.checkValidity = sinon.mock().returns(true);
+        el.$.putAjax.generateRequest = sinon.mock();
+    });
+
+    // Polymer binds input fields values as strings so this
+    // test makes sure that we do the necessary transformation
+    // of the _id value since back-end expects it to be a number.
+    it('sets _data property to putAjax.body', function() {
+        // Should be with _id as number
+        var expected = JSON.stringify({_id: 123, title: "Book Title", description: ""});
+        // _data stores _id as string
+        el._data = {_id: "123", title: "Book Title", description: ""};
+
+        el._submit();
+
+        assert.equal(el.$.putAjax.body, expected);
+    });
+
+    // When _submit function is called, we should make sure
+    // that putAjax.generateRequest is called. In the beforeEach
+    // function we already create a mock out of this function
+    // and here we are simply validating that it is called once.
+    it('calls putAjax.generateRequest', function() {
+        el._submit();
+
+        sinon.assert.calledOnce(el.$.putAjax.generateRequest);
+    });
+
+    it('calls _handleError when form is invalid', function() {
+        el._handleError = sinon.mock();
+        el.$.form.checkValidity = sinon.mock().returns(false);
+
+        el._submit();
+
+        sinon.assert.calledWith(el._handleError, 'At least one field is invalid.');
+    });
+
+});
+```
+
+The implementation of the **_submit** function is still relatively simple.
+
+[client/components/tc-books/tc-book-form.html]
+```html
+_submit: function() {
+    if (this.$.form.checkValidity()) {
+        // This is a workaround.
+        // _id should be sent as number
+        this.set('_data._id', parseInt(this._data._id));
+        // iron-ajax does not stringify object
+        this.$.putAjax.body = JSON.stringify(this._data);
+        this.$.putAjax.generateRequest();
+    } else {
+        this._handleError('At least one field is invalid.');
+    }
+}
+```
+
+You might have noticed that we are calling the **_handleError** function even though it does not exist. Tests had it mocked so there were no errors. Let's implement error handling.
+
+Error Handling Specification
+============================
+
+Polymer has a useful element called [paper-toast](https://elements.polymer-project.org/elements/paper-toast) that can be used to provide visual notifications.
+
+We'll start with specification of the **errorText** property. Later on we'll bind it to our **paper-toast** element. That way users of our component will be able to change error message.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('errorText property', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl.errorText);
+        assert.isString(myEl.errorText);
+        assert.equal(myEl.errorText, 'Something, somewhere, went wrong');
+    });
+
+});
+```
+
+Like before, each specification is followed with an implementation.
+
+[client/components/tc-books/tc-book-form.html]
+```javascript
+properties: {
+    ...
+    errorText: {
+        type: String,
+        value: 'Something, somewhere, went wrong'
+    },
+    ...
+ }
+```
+
+Now we are ready to work on the **paper-toast** element.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('toast element', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl.$.toast);
+    });
+
+    it('binds text to errorText property', function() {
+        myEl.errorText = 'This text is displayed when request fails';
+
+        assert.equal(myEl.$.toast.text, myEl.errorText);
+    });
+
+});
+```
+
+Implementation is following.
+
+[client/components/tc-books/tc-book-form.html]
+```html
+<paper-toast id="toast" text="[[errorText]]"></paper-toast>
+```
+
+Now we are ready to specify the **_handleError** function we already used.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('_handleError function', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl._handleError);
+    });
+
+    it('calls toast show method', function() {
+        var el = fixture('fixture');
+        el.$.toast.show = sinon.mock();
+
+        el._handleError();
+
+        sinon.assert.calledOnce(el.$.toast.show);
+    });
+
+    it('sets error text property', function() {
+        var expected = 'Panic!!!';
+
+        myEl._handleError(expected);
+
+        assert.equal(myEl.errorText, expected);
+    });
+
+});
+```
+
+The implementation is following.
+
+[client/components/tc-books/tc-book-form.html]
+```javascript
+_handleError: function(text) {
+    this.errorText = text;
+    this.$.toast.show();
+}
+```
+
+Since we already have the **_submit** function that adds and updates books, we might want to complete that with a **_delete** function.
+
+Delete Specifications
+=====================
+
+We should start with another **iron-ajax** element. This one will be sending **DELETE** request to the server.
+
+Back-end expects **DELETE** request to be sent to the **/api/v1/book/_id/[ID]** URL where **[ID]** is the number that identifies the book that should be removed.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('deleteAjax element', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl.$.deleteAjax);
+    });
+
+    it('sets method to DELETE', function() {
+        assert.equal(myEl.$.deleteAjax.method, 'DELETE');
+    });
+
+});
+```
+
+The implementation is following.
+
+[client/components/tc-books/tc-book-form.html]
+```html
+<iron-ajax id="deleteAjax"
+           method="DELETE">
+</iron-ajax>
+```
+
+With the **deleteAjax** up and running, we should create a function that will configure it and call the `generateRequest` function.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('_delete function', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl._delete);
+    });
+
+    it('sets deleteAjax.url', function() {
+        var id = 749;
+        myEl._data = {_id: id};
+
+        myEl._delete();
+
+        assert.equal(myEl.$.deleteAjax.url, myEl.requestUrl + '/_id/' + id);
+    });
+
+    it('calls deleteAjax.generateRequest', function() {
+        var el = fixture('fixture');
+        el.$.deleteAjax.generateRequest = sinon.mock();
+
+        el._delete();
+
+        sinon.assert.calledOnce(el.$.deleteAjax.generateRequest);
+    });
+
+});
+```
+
+The implementation is following.
+
+[client/components/tc-books/tc-book-form.html]
+```javascript
+_delete: function() {
+    this.$.deleteAjax.url = this.requestUrl + '/_id/' + this._data._id;
+    this.$.deleteAjax.generateRequest();
+}
+```
+
+Finally, all we need now is the **Delete** button that will call the **_delete** function whenever clicked. However, before we start working on the button, let us define a property that will allow users of our component to change the text of the button.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('deleteText property', function() {
+
+    it('is defined', function() {
+        assert.isString(myEl.deleteText);
+        assert.equal(myEl.deleteText, 'Delete');
+    });
+
+});
+```
+
+The implementation is following.
+
+[client/components/tc-books/tc-book-form.html]
+```javascript
+properties: {
+    ...
+    deleteText: {
+        type: String,
+        value: 'Delete'
+    }
+    ...
+}
+```
+
+With this property out of the way, we are ready to specify the **Delete** button.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('delete element', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl.$.delete);
+    });
+
+    it('binds to deleteText property', function() {
+        myEl.deleteText = 'Hello';
+
+        assert.equal(myEl.$.delete.textContent.trim(), myEl.deleteText);
+    });
+
+    it('calls _delete function when clicked', function() {
+        var el = fixture('fixture');
+        el._delete = sinon.mock();
+
+        el.$.delete.click();
+
+        sinon.assert.calledOnce(el._delete);
+    });
+
+});
+```
+
+The implementation is following.
+
+[client/components/tc-books/tc-book-form.html]
+```html
+<paper-button id="delete" on-tap="_delete">[[deleteText]]</paper-button>
+```
+
+While we are at the subject of buttons, we might want to add the **Submit** button as well. We already finished the **_submit** function so the only thing left is the element itself and a property we'll bind to.
+
+Submit Button Specifications
+============================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Now that we have a way to sent a PUT request to the back-end server, we should create functions that will handle responses. We should define two. One when the response is 200 and the other when the server returns an error.
 
 
 
