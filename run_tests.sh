@@ -20,6 +20,7 @@ then
   sbt "testOnly *Integ"
 elif [ "$TEST_TYPE" = "watch-front" ]
 then
+  mongod &
   sbt run &
   cd client
   Xvfb :1 -screen 0 1024x768x16 &> xvfb.log  &

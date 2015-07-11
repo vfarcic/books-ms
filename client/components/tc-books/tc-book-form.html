@@ -26,7 +26,7 @@
                    on-response="_handleDeleteResponse"
                    on-error="_handleDeleteError">
         </iron-ajax>
-        <!--<div>-->
+        <div>
             <form id="form">
                 <paper-input id="_id"
                              label="ID"
@@ -51,13 +51,13 @@
                              error-message="Author is required">
                 </paper-input>
                 <paper-input id="description"
-                                label="Description"
-                                value="{{_data.description}}">
+                             label="Description"
+                             value="{{_data.description}}">
                 </paper-input>
                 <paper-button id="delete" class="warningButton" raised on-tap="_delete">[[deleteText]]</paper-button>
-                <!--<paper-button id="submit" class="mainButton" raised on-tap="_submit">[[submitText]]</paper-button>-->
+                <paper-button id="submit" class="mainButton" raised on-tap="_submit">[[submitText]]</paper-button>
             </form>
-        <!--</div>-->
+        </div>
         <paper-toast id="toast" text="[[errorText]]"></paper-toast>
     </template>
 </dom-module>
@@ -74,10 +74,10 @@
                     type: String,
                     value: 'Something, somewhere, went wrong'
                 },
-//                submitText: {
-//                    type: String,
-//                    value: 'Submit'
-//                },
+                submitText: {
+                    type: String,
+                    value: 'Submit'
+                },
                 deleteText: {
                     type: String,
                     value: 'Delete'

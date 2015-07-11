@@ -1,4 +1,4 @@
-**TODO: Reference to searies**
+**TODO: Reference to series**
 **TODO: Reference to microservices and front-end article**
 
 In this article we'll go through Web Components development in context of microservices. We'll use [Polymer](https://www.polymer-project.org) as the library that will help us out. The objective is to create a microservice that will handle full functionality. The service will contain not only back-end API (as is the case with most microservices) but also front-end in form of Web Components. Later on, when the time comes to use the service we're creating, we'll simply import Web Components. That is quite a different approach than what you might be used to. We won't create a Web Application that calls APIs handled by microservices. We'll import parts of the front-end from microservices. Our objective is to have a microservice that contains everything; from front-end to back-end. Please refer to the [TODO](TODO) article for more information that lead to this decision.
@@ -788,6 +788,79 @@ While we are at the subject of buttons, we might want to add the **Submit** butt
 
 Submit Button Specifications
 ============================
+
+The **Submit** button and the **submitText** property are almost the same as delete specifications we did previously.
+
+We'll start with the property.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('submitText property', function() {
+
+    it('is defined', function() {
+        assert.isString(myEl.submitText);
+        assert.equal(myEl.submitText, 'Submit');
+    });
+
+});
+```
+
+The implementation is following.
+
+[client/components/tc-books/tc-book-form.html]
+```javascript
+properties: {
+    ...
+    submitText: {
+        type: String,
+        value: 'Submit'
+    },
+    ...
+}
+```
+
+Now we can move onto the button itself.
+
+[client/test/tc-book-form.html]
+```javascript
+describe('submit element', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl.$.submit);
+    });
+
+    it('binds text to submitText property', function() {
+        assert.equal(myEl.$.submit.textContent.trim(), myEl.submitText);
+    });
+
+    it('calls _submit function on click', function() {
+        var el = fixture('fixture');
+        el._submit = sinon.mock();
+
+        el.$.submit.click();
+
+        sinon.assert.calledOnce(el._submit);
+    });
+
+});
+```
+
+The implementation is following.
+
+[client/components/tc-books/tc-book-form.html]
+```javascript
+<paper-button id="submit" on-tap="_submit">[[submitText]]</paper-button>
+```
+
+This article is finished and we have a working version of our books form. You can see the result by opening [http://localhost:8080/components/tc-books/demo/index.html](http://localhost:8080/components/tc-books/demo/index.html). Enter some data, click the **Submit** button and a new book will be stored in the database. Modify data of a book and click **Submit** again and data will be updated. **Delete** button has the obvious function. We can see the result of different operations by directly querying the back-end on [http://localhost:8080/api/v1/books](http://localhost:8080/api/v1/books).
+
+While what we did works, it is far from being complete. We cannot open an existing book, error handling from **iron-ajax** components is not yet implemented and users of our component cannot be notified of what happened. These and few other improvements will be the subject of the [next article](TODO).
+
+
+
+
+
+
 
 
 

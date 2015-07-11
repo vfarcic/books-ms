@@ -379,6 +379,36 @@
 
         });
 
+        describe('submitText property', function() {
+
+            it('is defined', function() {
+                assert.isString(myEl.submitText);
+                assert.equal(myEl.submitText, 'Submit');
+            });
+
+        });
+
+        describe('submit element', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl.$.submit);
+            });
+
+            it('binds text to submitText property', function() {
+                assert.equal(myEl.$.submit.textContent.trim(), myEl.submitText);
+            });
+
+            it('calls _submit function on click', function() {
+                var el = fixture('fixture');
+                el._submit = sinon.mock();
+
+                el.$.submit.click();
+
+                sinon.assert.calledOnce(el._submit);
+            });
+
+        });
+
 //        describe('_handlePutResponse', function() {
 //
 //            it('is defined', function() {
@@ -495,32 +525,6 @@
 //                el.ready();
 //
 //                sinon.assert.calledWith(el.open, 0);
-//            });
-//
-//        });
-//
-//        describe('submitText property', function() {
-//
-//            it('is defined', function() {
-//                assert.isString(myEl.submitText);
-//                assert.equal(myEl.submitText, 'Submit');
-//            });
-//
-//        });
-//
-//        describe('submit element', function() {
-//
-//            it('binds text to submitText property', function() {
-//                assert.equal(myEl.$.submit.textContent.trim(), myEl.submitText);
-//            });
-//
-//            it('calls _submit function on click', function() {
-//                var el = fixture('fixture');
-//                el._submit = sinon.mock();
-//
-//                el.$.submit.click();
-//
-//                sinon.assert.calledOnce(el._submit);
 //            });
 //
 //        });
