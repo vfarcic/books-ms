@@ -104,12 +104,6 @@
                 this.errorText = text;
                 this.$.toast.show();
             },
-//            _handleGetError: function() {
-//                this._handleErsror('The book could not be retrieved from the server');
-//            },
-//            _handlePutError: function() {
-//                this._handleError('The book could not be stored in the server');
-//            },
             _handlePutResponse: function() {
                 this.fire('putBook', this._data);
                 this.$.delete.hidden = false;
@@ -138,9 +132,15 @@
                 var data = this._data;
                 this.open(0);
                 this.fire('deleteBook', data);
-//            },
-//            _handleDeleteError: function() {
-//                this._handleError('The book could not be removed from the server');
+            },
+            _handlePutError: function() {
+                this._handleError('The book could not be stored in the server');
+            },
+            _handleGetError: function() {
+                this._handleError('The book could not be retrieved from the server');
+            },
+            _handleDeleteError: function() {
+                this._handleError('The book could not be removed from the server');
             }
         });
     })();

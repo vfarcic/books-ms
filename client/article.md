@@ -3,6 +3,8 @@
 
 In the [previous article](TODO) we created our first Polymer Web Component using [Test-Driven Development](http://technologyconversations.com/2014/09/30/test-driven-development-tdd/) approach. While all the specifications we wrote are fulfilled, there are still few things we should do to polish this component. The **tc-book-form** currently has the form with all input fields required by the back-end. It also has buttons to add or update and delete a book. Those buttons are calling **iron-ajax** Polymer component that sends requests to the back-end. Both front-end (in form of Web Component) and back-end are developed as a single microservice.
 
+**TODO: Add component screenshot**
+
 The next task in front of us is to polish the component. Later on in this series we'll create another component that will list all books. We'll also develop the code that will enable us to establish communication between those two components. Once we're done with both, we'll explore ways to integrate the microservice we're developing into a separate Web Application.
 
 You can continue working on the code we wrote in the previous article. If you had trouble completing it, please checkout the [polymer-book-form](https://github.com/vfarcic/books-service/tree/polymer-book-form) branch of the  [books-service](https://github.com/vfarcic/books-service) repository. It contains the all the code from the previous article.
@@ -287,7 +289,202 @@ _handleDeleteResponse: function() {
 }
 ```
 
+We should react when the server responds with an error. We already have the generic **_handleError** function that can be used.
+ 
+[client/test/tc-book-form.html]
+```javascript
+describe('_handlePutError function', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl._handlePutError);
+    });
+
+    it('calls _handleError', function() {
+        var el = fixture('fixture');
+        el._handleError = sinon.mock();
+
+        el._handlePutError();
+
+        sinon.assert.calledWith(el._handleError, 'The book could not be stored in the server');
+    });
+
+});
+
+describe('_handleGetError function', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl._handleGetError);
+    });
+
+    it('calls _handleError', function() {
+        var el = fixture('fixture');
+        el._handleError = sinon.mock();
+
+        el._handleGetError();
+
+        sinon.assert.calledWith(el._handleError, 'The book could not be retrieved from the server');
+    });
+
+});
+
+describe('_handleDeleteError function', function() {
+
+    it('is defined', function() {
+        assert.isDefined(myEl._handleDeleteError);
+    });
+
+    it('calls _handleError', function() {
+        var el = fixture('fixture');
+        el._handleError = sinon.mock();
+
+        el._handleDeleteError();
+
+        sinon.assert.calledWith(el._handleError, 'The book could not be removed from the server');
+    });
+
+});
+```
+
+The implementation is following.
+
+[client/components/tc-books/tc-book-form.html]
+```javascript
+_handlePutError: function() {
+    this._handleError('The book could not be stored in the server');
+},
+_handleGetError: function() {
+    this._handleError('The book could not be retrieved from the server');
+},
+_handleDeleteError: function() {
+    this._handleError('The book could not be removed from the server');
+}
+```
+
+Finally, we should make sure that the functions we just implemented are called from **iron-ajax** components. It contains **onResponse** and **onError** functions that can be used for just a case.
+
+The full implementation or our **iron-ajax** components is following.
+
+[client/components/tc-books/tc-book-form.html]
+```html
+<iron-ajax id="getAjax"
+           on-error="_handleGetError"
+           on-response="_handleGetResponse">
+</iron-ajax>
+<iron-ajax id="putAjax"
+           method="PUT"
+           on-response="_handlePutResponse"
+           on-error="_handlePutError"
+           content-type="application/json"
+           url="[[requestUrl]]">
+</iron-ajax>
+<iron-ajax id="deleteAjax"
+           method="DELETE"
+           on-response="_handleDeleteResponse"
+           on-error="_handleDeleteError">
+</iron-ajax>
+```
+
+This concludes the development of the **tc-book-form** component. Please open the [http://localhost:8080/components/tc-books/demo/index.html](http://localhost:8080/components/tc-books/demo/index.html) to see the end result.
+
+What can we do next? Let us explore way to utilize it.
+
+Utilizing Component Functions And Events
+========================================
+
+We'll try to give it a bit more life to the existing demo and simulate few of the usages the component might have later on when we import it to the application.
+
+We can, for example, add HTML elements and script that would tell the **tc-book-form** component to open an existing book or a new one. Bear in mind that what we are about to do is temporary. In the next article we'll create a new component that will list books and have options to tell the application to open a book.
+
+Please open the **components/tc-books/demo/index.html**. It contains the **demo** of the component we just built. 
+
+We'll start by adding an input and two buttons. Add following HTML below the body tag.
+
+[components/tc-books/demo/index.html]
+```html
+<body>
+    <div>
+        <input id="bookId">
+        <button onclick="openBook()">Open</button>
+    </div>
+    <div>
+        <button onclick="newBook()">New</button>
+    </div>
+    ...
+</body>
+```
+
+Now we'll create **openBook** and **newBook** that will call **tc-book-form** **open** function. Depending on the **ID** we pass, a new book or an existing one will be opened.
+
+[components/tc-books/demo/index.html]
+```html
+<script>
+    var tcBookForm = document.querySelector('#tc-book-form');
+    function openBook() {
+        var bookId = document.querySelector('#bookId');
+        tcBookForm.open(bookId.value);
+    }
+    function newBook() {
+        tcBookForm.open(0);
+    }
+</script>
+```
+
+As you can see, there is no need for us to know internals of the component but only those properties and functions that are exposed to us.
+
+We can try it out by opening the [http://localhost:8080/components/tc-books/demo/index.html](http://localhost:8080/components/tc-books/demo/index.html).
+
+1. Fill in the form and press **submit**. The book info has been stored in the back-end.
+**TODO: Screenshot**
+2. Press the **New** button. The book form has been cleared and is ready for us to populate it with data of a new book.
+**TODO: Screenshot**
+3. Put the number of the book you submitted into the input field left of the **Open** button. Press the **open** button. The book was retrieved from the back-end and the form has been populated.
+**TODO: Screenshot**
+
+We might, for example, display notifications whenever book is added, updated, removed or retrieved. This can be done with **paper-toast** component and utilization of custom events that our component is firing.
+
+Add following to the **index.html** **body**.
+
+[components/tc-books/demo/index.html]
+```html
+<paper-toast id="toast"></paper-toast>
+```
+
+We should also add a bit of JavaScript.
+
+[components/tc-books/demo/index.html]
+```html
+<script>
+    ...
+    var toast = document.querySelector('#toast');
+    tcBookForm.addEventListener('getBook', onGetBook);
+    tcBookForm.addEventListener('putBook', onPutBook);
+    tcBookForm.addEventListener('deleteBook', onDeleteBook);
+    function onGetBook(e) {
+        bookChanged(e.detail.title, 'retrieved');
+    }
+    function onPutBook(e) {
+        bookChanged(e.detail.title, 'saved');
+    }
+    function onDeleteBook(e) {
+        bookChanged(e.detail.title, 'deleted');
+    }
+    function bookChanged(title, status) {
+        toast.text = title + ' has been ' + status + '.';
+        toast.show();
+    }
+    ...
+```
+
+From now on you'll see messages whenever one of the book operations is run inside the component.
+
+To Be Continued
+===============
+
+What we did above is only a quick "workaround" to showcase how we can interact with Polymer Web Components. In the next article we'll develop the second component that will list all available books and be able to fire custom events. Those events will be used to communicate between the two components. Once both components are done we'll move on and use them in a separate Web Application.
+
+**TODO: Link to the next article
+
 TODO
 ====
 
-* Explain iron-ajax on-* functions.
+* Styling

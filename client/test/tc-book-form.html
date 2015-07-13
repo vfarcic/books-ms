@@ -585,56 +585,56 @@
 
         });
 
-//        describe('_handlePutError function', function() {
-//
-//            it('is defined', function() {
-//                assert.isDefined(myEl._handlePutError);
-//            });
-//
-//            it('calls _handleError', function() {
-//                var el = fixture('fixture');
-//                el._handleError = sinon.mock();
-//
-//                el._handlePutError();
-//
-//                sinon.assert.calledWith(el._handleError, 'The book could not be stored in the server');
-//            });
-//
-//        });
-//
-//        describe('_handleGetError function', function() {
-//
-//            it('is defined', function() {
-//                assert.isDefined(myEl._handleGetError);
-//            });
-//
-//            it('calls _handleError', function() {
-//                var el = fixture('fixture');
-//                el._handleError = sinon.mock();
-//
-//                el._handleGetError();
-//
-//                sinon.assert.calledWith(el._handleError, 'The book could not be retrieved from the server');
-//            });
-//
-//        });
-//
-//        describe('_handleDeleteError function', function() {
-//
-//            it('is defined', function() {
-//                assert.isDefined(myEl._handleDeleteError);
-//            });
-//
-//            it('calls _handleError', function() {
-//                var el = fixture('fixture');
-//                el._handleError = sinon.mock();
-//
-//                el._handleDeleteError();
-//
-//                sinon.assert.calledWith(el._handleError, 'The book could not be removed from the server');
-//            });
-//
-//        });
+        describe('_handlePutError function', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl._handlePutError);
+            });
+
+            it('calls _handleError', function() {
+                var el = fixture('fixture');
+                el._handleError = sinon.mock();
+
+                el._handlePutError();
+
+                sinon.assert.calledWith(el._handleError, 'The book could not be stored in the server');
+            });
+
+        });
+
+        describe('_handleGetError function', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl._handleGetError);
+            });
+
+            it('calls _handleError', function() {
+                var el = fixture('fixture');
+                el._handleError = sinon.mock();
+
+                el._handleGetError();
+
+                sinon.assert.calledWith(el._handleError, 'The book could not be retrieved from the server');
+            });
+
+        });
+
+        describe('_handleDeleteError function', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl._handleDeleteError);
+            });
+
+            it('calls _handleError', function() {
+                var el = fixture('fixture');
+                el._handleError = sinon.mock();
+
+                el._handleDeleteError();
+
+                sinon.assert.calledWith(el._handleError, 'The book could not be removed from the server');
+            });
+
+        });
 
     });
 </script>

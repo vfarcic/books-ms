@@ -23,6 +23,13 @@
     </style>
 </head>
 <body>
+<div>
+    <input id="bookId">
+    <button onclick="openBook()">Open</button>
+</div>
+<div>
+    <button onclick="newBook()">New</button>
+</div>
 <div class="layout wrap inline center-center">
     <div>
         <h1>Book Form </h1>
@@ -31,7 +38,33 @@
         </div>
     </div>
 </div>
+<paper-toast id="toast"></paper-toast>
 <script>
+    var tcBookForm = document.querySelector('#tc-book-form');
+    var toast = document.querySelector('#toast');
+    tcBookForm.addEventListener('getBook', onGetBook);
+    tcBookForm.addEventListener('putBook', onPutBook);
+    tcBookForm.addEventListener('deleteBook', onDeleteBook);
+    function openBook() {
+        var bookId = document.querySelector('#bookId');
+        tcBookForm.open(bookId.value);
+    }
+    function newBook() {
+        tcBookForm.open(0);
+    }
+    function onGetBook(e) {
+        bookChanged(e.detail.title, 'retrieved');
+    }
+    function onPutBook(e) {
+        bookChanged(e.detail.title, 'saved');
+    }
+    function onDeleteBook(e) {
+        bookChanged(e.detail.title, 'deleted');
+    }
+    function bookChanged(title, status) {
+        toast.text = title + ' has been ' + status + '.';
+        toast.show();
+    }
 </script>
 </body>
 </html>
