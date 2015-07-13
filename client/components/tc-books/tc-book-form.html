@@ -1,14 +1,30 @@
 <dom-module id="tc-book-form">
     <style>
+        /*.mainButton {*/
+        /*color: var(--button-main-color);*/
+        /*background: var(--button-main-background);*/
+        /*}*/
+        /*.warningButton {*/
+        /*color: var(--button-warning-color);*/
+        /*background: var(--button-warning-background);*/
+        /*}*/
     </style>
     <template>
+        <iron-ajax id="getAjax"
+                   on-error="_handleGetError"
+                   on-response="_handleGetResponse">
+        </iron-ajax>
         <iron-ajax id="putAjax"
                    method="PUT"
+                   on-response="_handlePutResponse"
+                   on-error="_handlePutError"
                    content-type="application/json"
                    url="[[requestUrl]]">
         </iron-ajax>
         <iron-ajax id="deleteAjax"
-                   method="DELETE">
+                   method="DELETE"
+                   on-response="_handleDeleteResponse"
+                   on-error="_handleDeleteError">
         </iron-ajax>
         <div>
             <form id="form">
@@ -71,9 +87,26 @@
                     value: {}
                 }
             },
+            open: function(bookId) {
+                if (bookId > 0) {
+                    this.$.getAjax.url = this.requestUrl + '/_id/' + bookId;
+                    this.$.getAjax.generateRequest();
+                    this.$.delete.hidden = false;
+                } else {
+                    this._data = {};
+                    this.$.delete.hidden = true;
+                }
+            },
+            ready: function() {
+                this.open(0);
+            },
             _handleError: function(text) {
                 this.errorText = text;
                 this.$.toast.show();
+            },
+            _handlePutResponse: function() {
+                this.fire('putBook', this._data);
+                this.$.delete.hidden = false;
             },
             _submit: function() {
                 if (this.$.form.checkValidity()) {
@@ -87,9 +120,27 @@
                     this._handleError('At least one field is invalid.');
                 }
             },
+            _handleGetResponse: function(e) {
+                this._data = e.detail.response;
+                this.fire('getBook', this._data);
+            },
             _delete: function() {
                 this.$.deleteAjax.url = this.requestUrl + '/_id/' + this._data._id;
                 this.$.deleteAjax.generateRequest();
+            },
+            _handleDeleteResponse: function() {
+                var data = this._data;
+                this.open(0);
+                this.fire('deleteBook', data);
+            },
+            _handlePutError: function() {
+                this._handleError('The book could not be stored in the server');
+            },
+            _handleGetError: function() {
+                this._handleError('The book could not be retrieved from the server');
+            },
+            _handleDeleteError: function() {
+                this._handleError('The book could not be removed from the server');
             }
         });
     })();
