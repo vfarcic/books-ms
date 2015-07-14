@@ -34,6 +34,163 @@
             myEl = fixture('fixture');
         });
 
+        describe('requestUrl property', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl.requestUrl);
+                assert.isString(myEl.requestUrl);
+                assert.equal(myEl.requestUrl, '/api/v1/books');
+            });
+
+        });
+
+        describe('ajax element', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl.$.ajax);
+            });
+
+            it('sets auto to true', function() {
+                assert.isTrue(myEl.$.ajax.auto);
+            });
+
+            it('binds url to requestUrl property', function() {
+                assert.equal(myEl.$.ajax.url, myEl.requestUrl);
+            });
+
+        });
+
+        describe('requestErrorText property', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl.requestErrorText);
+                assert.isString(myEl.requestErrorText);
+                assert.equal(myEl.requestErrorText, 'Something, somewhere, went wrong');
+            });
+
+        });
+
+        describe('toast element', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl.$.toast);
+            });
+
+            it('binds text to requestErrorText property', function() {
+                myEl.requestErrorText = 'This text is displayed when request fails';
+
+                assert.equal(myEl.$.toast.text, myEl.requestErrorText);
+            });
+
+        });
+
+        describe('_handleError function', function() {
+
+            it('calls toast show method', function() {
+                myEl.$.toast.show = sinon.mock();
+
+                myEl._handleError();
+
+                sinon.assert.calledOnce(myEl.$.toast.show);
+            });
+
+        });
+
+        describe('_openBook function', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl._openBook);
+            });
+
+            it('fires openBook event', function() {
+                var item = {
+                    title: "An interesting book"
+                };
+                var event = {
+                    model: {
+                        item: item
+                    }
+                };
+                var actual;
+                var onOpenBook = sinon.spy(function(e) {
+                    actual = e.detail;
+                });
+                myEl.addEventListener('openBook', onOpenBook);
+
+                myEl._openBook(event);
+
+                sinon.assert.calledOnce(onOpenBook);
+                assert.equal(actual, item);
+            });
+
+        });
+
+        describe('newBookText property', function() {
+
+            it('is defined', function() {
+                assert.isString(myEl.newBookText);
+                assert.equal(myEl.newBookText, 'New Book');
+            });
+
+        });
+
+        describe('newBook element', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl.$.newBook);
+            });
+
+            it('binds to newBookText property', function() {
+                myEl.newBookText = 'New and Fancy Book';
+
+                assert.equal(myEl.$.newBook.textContent.trim(), myEl.newBookText);
+            });
+
+            it('calls newBook function on click', function() {
+                var el = fixture('fixture');
+                el._newBook = sinon.mock();
+
+                el.$.newBook.click();
+
+                sinon.assert.calledOnce(el._newBook);
+            });
+
+        });
+
+        describe('_newBook function', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl._newBook);
+            });
+
+            it('fires newBook event', function() {
+                var onNewBook = sinon.mock();
+                myEl.addEventListener('newBook', onNewBook);
+
+                myEl._newBook();
+
+                sinon.assert.calledOnce(onNewBook);
+            });
+
+        });
+
+        describe('refresh function', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl.refresh);
+            });
+
+            it('calls ajax.generateRequest function', function() {
+                var el = fixture('fixture');
+                el.$.ajax.generateRequest = sinon.mock();
+
+                el.refresh();
+
+                sinon.assert.calledOnce(el.$.ajax.generateRequest);
+            });
+
+        });
+
     });
 </script>
 
