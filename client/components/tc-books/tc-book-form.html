@@ -113,6 +113,9 @@
                     // This is a workaround.
                     // _id should be sent as number
                     this.set('_data._id', parseInt(this._data._id));
+                    if (this._data.description == undefined) {
+                        this._data.description = '';
+                    }
                     // iron-ajax does not stringify object
                     this.$.putAjax.body = JSON.stringify(this._data);
                     this.$.putAjax.generateRequest();
