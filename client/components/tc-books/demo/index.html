@@ -18,8 +18,19 @@
     <link rel="import" href="../../../bower_components/paper-input/paper-textarea.html">
 
     <link rel="import" href="../tc-book-form.html">
+    <link rel="import" href="../tc-books.html">
 
     <style is="custom-style">
+        .demo {
+            padding: 5px;
+            background-color: white;
+            display: inline-block;
+            margin: 5px;
+        @apply(--shadow-elevation-2dp);
+        }
+        h1 {
+            margin-left: 24px;
+        }
     </style>
 </head>
 <body>
@@ -31,6 +42,12 @@
     <button onclick="newBook()">New</button>
 </div>
 <div class="layout wrap inline center-center">
+    <div>
+        <h1>Books List</h1>
+        <div class="demo">
+            <tc-books id="tc-books"></tc-books>
+        </div>
+    </div>
     <div>
         <h1>Book Form </h1>
         <div class="demo">

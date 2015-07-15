@@ -2,6 +2,30 @@
     <style>
     </style>
     <template>
+        <iron-ajax id="ajax"
+                   auto
+                   url="[[requestUrl]]"
+                   last-response="{{ajaxResponse}}"
+                   on-error="_handleError">
+        </iron-ajax>
+        <iron-ajax id="ajax"
+                   auto
+                   url="[[requestUrl]]"
+                   on-error="_handleError">
+        </iron-ajax>
+        <div style="margin-bottom: 5px;">
+            <paper-button id="newBook"
+                          raised
+                          on-tap="_newBook">[[newBookText]]</paper-button>
+        </div>
+        <template id="books" is="dom-repeat" items="[[ajaxResponse]]">
+            <div>
+                <paper-button id="{{item.title}}"
+                              on-tap="_openBook">[[item.title]]</paper-button>
+            </div>
+        </template>
+        <paper-toast id="toast" text="[[requestErrorText]]">
+        </paper-toast>
     </template>
 </dom-module>
 <script>
@@ -9,6 +33,30 @@
         Polymer({
             is: 'tc-books',
             properties: {
+                requestUrl: {
+                    type: String,
+                    value: '/api/v1/books'
+                },
+                requestErrorText: {
+                    type: String,
+                    value: 'Something, somewhere, went wrong'
+                },
+                newBookText: {
+                    type: String,
+                    value: 'New Book'
+                }
+            },
+            refresh: function() {
+                this.$.ajax.generateRequest();
+            },
+            _handleError: function() {
+                this.$.toast.show();
+            },
+            _openBook: function(e) {
+                this.fire('openBook', e.model.item);
+            },
+            _newBook: function() {
+                this.fire('newBook');
             }
         });
     })();

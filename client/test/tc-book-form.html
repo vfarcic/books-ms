@@ -258,6 +258,14 @@
                 sinon.assert.calledWith(el._handleError, 'At least one field is invalid.');
             });
 
+            it('adds empty description when undefined', function() {
+                el._data = {id: 373, title: 'Something', author: 'Someone'};
+
+                el._submit();
+
+                assert.equal(el._data.description, '');
+            });
+
         });
 
         describe('errorText property', function() {
