@@ -1,3 +1,7 @@
+prod:
+  image: vfarcic/books-service
+  ports:
+      - 8080:8080
 feTestsWatch:
   image: vfarcic/books-service-tests
   dockerfile: Dockerfile.test
