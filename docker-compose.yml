@@ -1,7 +1,13 @@
 prod:
   image: vfarcic/books-service
+  volumes:
+    - /data/db:/data/db
   ports:
       - 8080:8080
+  links:
+    db
+db:
+  image: mongo
 feTestsWatch:
   image: vfarcic/books-service-tests
   dockerfile: Dockerfile.test
