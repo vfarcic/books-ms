@@ -1,13 +1,13 @@
 <dom-module id="tc-book-form">
     <style>
-        /*.mainButton {*/
-        /*color: var(--button-main-color);*/
-        /*background: var(--button-main-background);*/
-        /*}*/
-        /*.warningButton {*/
-        /*color: var(--button-warning-color);*/
-        /*background: var(--button-warning-background);*/
-        /*}*/
+        .mainButton {
+            color: var(--button-main-color);
+            background: var(--button-main-background);
+        }
+        .warningButton {
+            color: var(--button-warning-color);
+            background: var(--button-warning-background);
+        }
     </style>
     <template>
         <iron-ajax id="getAjax"
@@ -54,8 +54,14 @@
                              label="Description"
                              value="{{_data.description}}">
                 </paper-input>
-                <paper-button id="delete" class="warningButton" raised on-tap="_delete">[[deleteText]]</paper-button>
-                <paper-button id="submit" class="mainButton" raised on-tap="_submit">[[submitText]]</paper-button>
+                <paper-button id="delete"
+                              raised
+                              on-tap="_delete"
+                              class="warningButton">[[deleteText]]</paper-button>
+                <paper-button id="submit"
+                              raised
+                              on-tap="_submit"
+                              class="mainButton">[[submitText]]</paper-button>
             </form>
         </div>
         <paper-toast id="toast" text="[[errorText]]"></paper-toast>
