@@ -9,12 +9,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
   end
-  config.vm.provision "shell", path: "bootstrap.sh"
   config.vm.define :dev do |dev|
+    dev.vm.provision "shell", path: "bootstrap.sh"
     dev.vm.provision :shell, inline: 'ansible-playbook /vagrant/ansible/dev.yml -c local -v'
     dev.vm.hostname = "books-service-dev"
   end
+  config.vm.define :devfe do |dev|
+    dev.vm.provision "shell", path: "bootstrap.sh"
+    dev.vm.provision :shell, inline: 'ansible-playbook /vagrant/ansible/devfe.yml -c local -v'
+    dev.vm.hostname = "books-service-dev"
+  end
   config.vm.define :prod do |prod|
+    prod.vm.provision "shell", path: "bootstrap.sh"
     prod.vm.network :forwarded_port, host: 8080, guest: 8080
     prod.vm.provision :shell, inline: 'ansible-playbook /vagrant/ansible/prod.yml -c local -v'
     prod.vm.hostname = "books-service-prod"
