@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-sbt assembly
+sbt compile
 cd client
 npm install
 bower install --allow-root --config.interactive=false -s
