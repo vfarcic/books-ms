@@ -2,5 +2,5 @@
 
 sbt compile
 cd client
-npm install --no-bin-links
+npm install
 bower install --allow-root --config.interactive=false -s
