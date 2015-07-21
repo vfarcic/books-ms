@@ -1,6 +1,8 @@
 FROM debian:jessie
 MAINTAINER Viktor Farcic "viktor@farcic.com"
 
+ENV VERSION 1.0
+
 RUN apt-get update
 
 # CUrl
@@ -47,9 +49,7 @@ ADD src /source/src
 # TODO: Remove
 ADD build.sbt /source/build.sbt
 ADD run_tests.sh /source/run_tests.sh
-RUN chmod +x /source/run_tests.sh
 ADD download_dependencies.sh /source/download_dependencies.sh
-RUN chmod +x /source/download_dependencies.sh
 
 # Envs
 ENV TEST_TYPE "spec"

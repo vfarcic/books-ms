@@ -15,7 +15,7 @@ downloadDeps:
   dockerfile: Dockerfile.test
   command: /source/download_dependencies.sh
   volumes:
-    - /data/.ivy2:/root/.ivy2/cache
+    - /data/ivy2:/root/.ivy2/cache
     - client:/source/client
     - src:/source/src
     - target:/source/target
@@ -26,11 +26,10 @@ feTestsWatch:
   stdin_open: true
   tty: true
   volumes:
-    - /data/.ivy2:/root/.ivy2/cache
+    - /data/ivy2:/root/.ivy2/cache
     - client:/source/client
     - src:/source/src
     - target:/source/target
-    - package.json:/source/package.json
     - /data/tests/db:/data/db
   ports:
     - 8080:8080
