@@ -8,25 +8,24 @@ This repository is used for following articles:
 Docker
 ============
 
-Build
------
-
-```bash
-sudo docker build -t vfarcic/books-service .
-
-sudo docker push vfarcic/books-service
-```
-
 Build Tests
 -----------
 
 ```bash
-sudo docker build \
-    -t vfarcic/books-service-tests \
-    -f Dockerfile.test \
-    .
+sudo docker build -t vfarcic/books-service-tests -f Dockerfile.test .
     
 sudo docker push vfarcic/books-service-tests
+```
+
+Build Production
+----------------
+
+```bash
+sudo docker-compose run tests
+
+sudo docker build -t vfarcic/books-service .
+
+sudo docker push vfarcic/books-service
 ```
 
 Run Front-End Tests Watcher

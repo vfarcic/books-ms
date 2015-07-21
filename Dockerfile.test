@@ -35,27 +35,32 @@ RUN curl -O -q http://downloads.typesafe.com/scala/2.11.5/scala-2.11.5.deb && \
 
 # Gulp, bower
 RUN npm install -g gulp bower
-RUN npm install web-component-tester
 
 # Dirs
 RUN mkdir /source
 RUN mkdir -p /data/db
-WORKDIR /source
 
-# TODO: Remove
 ADD project /source/project
 # TODO: Remove
 ADD src /source/src
-# TODO: Remove
 ADD build.sbt /source/build.sbt
+ADD client/bower.json /source/client/bower.json
+ADD client/gulpfile.js /source/client/gulpfile.js
+ADD client/package.json /source/client/package.json
+ADD client/wct.conf.js /source/client/wct.conf.js
+ADD client/test.html /source/client/test.html
 ADD run_tests.sh /source/run_tests.sh
-ADD download_dependencies.sh /source/download_dependencies.sh
+
+# Dependencies
+RUN cd /source && sbt update
+RUN cd /source/client && npm install && bower install --allow-root --config.interactive=false -s
 
 # Envs
 ENV TEST_TYPE "spec"
 ENV DOMAIN "http://172.17.42.1"
 ENV DISPLAY ":1.0"
 
+WORKDIR /source
 VOLUME ["/source", "/source/target/scala-2.10", "/root/.ivy2/cache", "/data/db"]
 
 CMD ["/source/run_tests.sh"]

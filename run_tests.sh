@@ -22,12 +22,16 @@ elif [ "$TEST_TYPE" = "watch-front" ]
 then
   mongod &
   sbt run &
-  cd client
+  cd /source/client
   Xvfb :1 -screen 0 1024x768x16 &> xvfb.log  &
-  npm install && bower install --allow-root --config.interactive=false -s && gulp watch
+  gulp watch
 else
   mongod &
   sbt "testOnly *Spec"
-  sbt assembly
   mongod --shutdown
+  cd /source/client
+  Xvfb :1 -screen 0 1024x768x16 &> xvfb.log  &
+  gulp test:local
+  cd /source
+  sbt assembly
 fi
