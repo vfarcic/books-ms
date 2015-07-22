@@ -16,6 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     dev.vm.hostname = "books-service-dev"
   end
   config.vm.define :devfe do |dev|
+    dev.vm.network :forwarded_port, host: 8080, guest: 8080
     dev.vm.provision "shell", path: "bootstrap.sh"
     dev.vm.provision :shell, inline: 'ansible-playbook /vagrant/ansible/devfe.yml -c local -v'
     dev.vm.hostname = "books-service-dev"
