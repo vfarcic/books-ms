@@ -2,4 +2,5 @@
   remote_user: vagrant
   sudo: yes
   roles:
+    - general
     - docker

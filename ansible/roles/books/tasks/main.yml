@@ -2,7 +2,7 @@
   file:
     path=/data/db
     state=directory
-  tags: [mongodb]
+  tags: [books-service]
 
 - name: Container is running
   docker:
@@ -10,4 +10,4 @@
     image=vfarcic/books-service
     ports=8080:8080
     volumes=/data/db:/data/db
-  tags: [mongodb]
+  tags: [books-service]

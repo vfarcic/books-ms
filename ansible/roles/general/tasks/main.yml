@@ -1,0 +1,5 @@
+- name: Link is present
+  file:
+    src: /vagrant
+    dest: /books-service
+    state: link
