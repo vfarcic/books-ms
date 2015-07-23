@@ -25,7 +25,8 @@ then
   cd /source/client
   Xvfb :1 -screen 0 1024x768x16 &> xvfb.log  &
   gulp watch
-else
+elif [ "$TEST_TYPE" = "all" ]
+then
   mongod &
   sbt "testOnly *Spec"
   mongod --shutdown
@@ -33,5 +34,10 @@ else
   Xvfb :1 -screen 0 1024x768x16 &> xvfb.log  &
   gulp test:local
   cd /source
+  sbt assembly
+else
+  mongod &
+  sbt "testOnly *Spec"
+  mongod --shutdown
   sbt assembly
 fi
