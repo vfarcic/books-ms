@@ -3,8 +3,9 @@ FROM ubuntu:14.04
 MAINTAINER Viktor Farcic "viktor@farcic.com"
 
 # Packages
+RUN echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
 RUN apt-get update && \
-    apt-get -y install --no-install-recommends openjdk-7-jdk mongodb wget && \
+    apt-get -y install --no-install-recommends openjdk-7-jdk mongodb wget sbt && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 RUN wget -q http://downloads.typesafe.com/scala/2.11.5/scala-2.11.5.deb && \
