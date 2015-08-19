@@ -41,8 +41,6 @@ RUN mkdir /source
 RUN mkdir -p /data/db
 
 ADD project /source/project
-# TODO: Remove
-ADD src /source/src
 ADD build.sbt /source/build.sbt
 ADD client/bower.json /source/client/bower.json
 ADD client/gulpfile.js /source/client/gulpfile.js
