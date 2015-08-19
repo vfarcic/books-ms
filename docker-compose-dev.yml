@@ -4,7 +4,7 @@ app:
     - 8080
 
 tests:
-  image: vfarcic/books-service-tests
+  image: vfarcic/books-ms-tests
   volumes:
     - client/components:/source/client/components
     - client/test:/source/client/test
@@ -16,14 +16,14 @@ tests:
     - TEST_TYPE=all
 
 integ:
-  image: vfarcic/books-service-tests
+  image: vfarcic/books-ms-tests
   volumes:
     - src:/source/src
   environment:
     - TEST_TYPE=integ
 
 feTests:
-  image: vfarcic/books-service-tests
+  image: vfarcic/books-ms-tests
   dockerfile: Dockerfile.test
   stdin_open: true
   tty: true

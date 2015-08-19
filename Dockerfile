@@ -12,7 +12,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Service
-ADD target/scala-2.10/books-service-assembly-1.0.jar /bs.jar
+ADD target/scala-2.10/books-ms-assembly-1.0.jar /bs.jar
 ADD client/components /client/components
 
 # Default command
