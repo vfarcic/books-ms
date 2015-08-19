@@ -1,4 +1,4 @@
-name := "books-service"
+name := "books-ms"
 
 version := "1.0"
 
