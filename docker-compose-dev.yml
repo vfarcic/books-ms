@@ -3,7 +3,7 @@ app:
   ports:
     - 8080
   volumes:
-    - /data/books-ms/db:/data/db
+    - /data/tests/db:/data/db
 
 tests:
   image: vfarcic/books-ms-tests
