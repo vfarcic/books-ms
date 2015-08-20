@@ -10,6 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         v.memory = 2048
     end
     config.vm.define :dev do |dev|
+        dev.vm.network "private_network", ip: "10.100.199.200"
         dev.vm.provision :shell, path: "bootstrap.sh"
         dev.vm.provision :shell,
             inline: 'ansible-playbook \
