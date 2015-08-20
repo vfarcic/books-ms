@@ -14,7 +14,7 @@ Test and Build
 --------------
 
 ```bash
-sudo docker-compose run tests
+sudo docker-compose -f docker-compose-dev.yml run tests
 
 sudo docker build -t vfarcic/books-ms .
 
