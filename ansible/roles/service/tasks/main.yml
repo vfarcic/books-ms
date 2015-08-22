@@ -1,3 +1,0 @@
-- name: Container is pulled
-  shell: docker pull vfarcic/books-ms-tests
-  tags: [service]
