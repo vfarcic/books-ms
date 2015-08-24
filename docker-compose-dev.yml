@@ -1,9 +1,12 @@
 app:
   image: vfarcic/books-ms
   ports:
-    - 8080
-  volumes:
-    - /data/tests/db:/data/db
+    - 8080:8080
+  links:
+    - db:db
+
+db:
+  image: mongo
 
 tests:
   image: vfarcic/books-ms-tests
