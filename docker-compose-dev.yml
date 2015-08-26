@@ -26,6 +26,7 @@ integ:
     - src:/source/src
   environment:
     - TEST_TYPE=integ
+    - DOMAIN=$DOMAIN
 
 feTests:
   image: vfarcic/books-ms-tests

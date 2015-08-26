@@ -1,4 +1,16 @@
 app:
+  image: 10.100.198.200:5000/books-ms
+  ports:
+    - 8080
+  links:
+    - db:db
+
+applocal:
   image: vfarcic/books-ms
   ports:
     - 8080
+  links:
+    - db:db
+
+db:
+  image: mongo
