@@ -47,7 +47,7 @@ integ:
     - TEST_TYPE=integ
     - DOMAIN=$DOMAIN
 
-integ:
+integLocal:
   image: vfarcic/books-ms-tests
   volumes:
     - src:/source/src
