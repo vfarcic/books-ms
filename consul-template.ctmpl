@@ -1,3 +1,7 @@
+location /api/v1/books {
+  proxy_pass http://books-ms/api/v1/books;
+}
+
 upstream books-ms {
     {{range service "books-ms"}}
     server {{.Address}}:{{.Port}};
