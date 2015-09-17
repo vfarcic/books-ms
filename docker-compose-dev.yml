@@ -53,7 +53,7 @@ integLocal:
     - ./src:/source/src
   environment:
     - TEST_TYPE=integ
-    - DOMAIN=$DOMAIN
+    - DOMAIN=http://172.17.42.1
 
 feTests:
   image: 10.100.198.200:5000/books-ms-tests
