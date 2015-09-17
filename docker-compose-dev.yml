@@ -18,11 +18,11 @@ db:
 tests:
   image: 10.100.198.200:5000/books-ms-tests
   volumes:
-    - client/components:/source/client/components
-    - client/test:/source/client/test
-    - src:/source/src
-    - target/scala-2.10:/source/target/scala-2.10
-    - client/wct-complete.conf.js:/source/client/wct.conf.js
+    - ./client/components:/source/client/components
+    - ./client/test:/source/client/test
+    - ./src:/source/src
+    - ./target/scala-2.10:/source/target/scala-2.10
+    - ./client/wct-complete.conf.js:/source/client/wct.conf.js
     - /data/tests/db:/data/db
   environment:
     - TEST_TYPE=all
@@ -30,11 +30,11 @@ tests:
 testsLocal:
   image: vfarcic/books-ms-tests
   volumes:
-    - client/components:/source/client/components
-    - client/test:/source/client/test
-    - src:/source/src
-    - target/scala-2.10:/source/target/scala-2.10
-    - client/wct-complete.conf.js:/source/client/wct.conf.js
+    - ./client/components:/source/client/components
+    - ./client/test:/source/client/test
+    - ./src:/source/src
+    - ./target/scala-2.10:/source/target/scala-2.10
+    - ./client/wct-complete.conf.js:/source/client/wct.conf.js
     - /data/tests/db:/data/db
   environment:
     - TEST_TYPE=all
