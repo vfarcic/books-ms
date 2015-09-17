@@ -42,7 +42,7 @@ testsLocal:
 integ:
   image: 10.100.198.200:5000/books-ms-tests
   volumes:
-    - src:/source/src
+    - ./src:/source/src
   environment:
     - TEST_TYPE=integ
     - DOMAIN=$DOMAIN
@@ -50,7 +50,7 @@ integ:
 integLocal:
   image: vfarcic/books-ms-tests
   volumes:
-    - src:/source/src
+    - ./src:/source/src
   environment:
     - TEST_TYPE=integ
     - DOMAIN=$DOMAIN
@@ -61,10 +61,10 @@ feTests:
   stdin_open: true
   tty: true
   volumes:
-    - client/components:/source/client/components
-    - client/test:/source/client/test
-    - src:/source/src
-    - target:/source/target
+    - ./client/components:/source/client/components
+    - ./client/test:/source/client/test
+    - ./src:/source/src
+    - ./target:/source/target
     - /data/tests/db:/data/db
   ports:
     - 8080:8080
@@ -77,10 +77,10 @@ feTestsLocal:
   stdin_open: true
   tty: true
   volumes:
-    - client/components:/source/client/components
-    - client/test:/source/client/test
-    - src:/source/src
-    - target:/source/target
+    - ./client/components:/source/client/components
+    - ./client/test:/source/client/test
+    - ./src:/source/src
+    - ./target:/source/target
     - /data/tests/db:/data/db
   ports:
     - 8080:8080
