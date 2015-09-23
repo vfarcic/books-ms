@@ -181,15 +181,14 @@
                 assert.isDefined(myEl.refresh);
             });
 
-// TODO: Figure out why this test fails in afterEach function
-//            it('calls ajax.generateRequest function', function() {
-//                var el = fixture('fixture');
-//                el.$.ajax.generateRequest = sinon.mock();
-//
-//                el.refresh();
-//
-//                sinon.assert.calledOnce(el.$.ajax.generateRequest);
-//            });
+            it('calls ajax.generateRequest function', function() {
+                var el = fixture('fixture');
+                el.$.ajax.generateRequest = sinon.mock();
+
+                el.refresh();
+
+                sinon.assert.calledOnce(el.$.ajax.generateRequest);
+            });
 
         });
 
