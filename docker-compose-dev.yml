@@ -13,7 +13,7 @@ appLocal:
     - db:db
 
 db:
-  image: mongo
+  image: 10.100.198.200:5000/mongo
 
 tests:
   image: 10.100.198.200:5000/books-ms-tests
