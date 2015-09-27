@@ -5,7 +5,7 @@ app:
   links:
     - db:db
   environment:
-    SERVICE_NAME: books-ms
+    - SERVICE_NAME=books-ms
 
 applocal:
   image: vfarcic/books-ms
