@@ -4,7 +4,7 @@ app:
     - 8080
   environment:
     - SERVICE_NAME=books-ms
-{{range service "books-ms-db"}}
+{{range service "books-db"}}
     - DB_PORT_27017_TCP_ADDR={{.Address}}
     - DB_PORT_27017_PORT={{.Port}}
 {{end}}
