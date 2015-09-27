@@ -14,4 +14,4 @@ db:
   ports:
     - 27017
   environment:
-    - SERVICE_NAME=books-ms-db
+    - SERVICE_NAME=books-db
