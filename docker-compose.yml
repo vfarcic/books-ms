@@ -15,4 +15,4 @@ applocal:
     - db:db
 
 db:
-  image: 10.100.198.200:5000/mongo
+  image: mongo
