@@ -5,7 +5,17 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box = "ubuntu/trusty64"
+
+    # If you run into issues with Ansible complaining about executable permissions,
+    # comment the following statement and uncomment the next one.
     config.vm.synced_folder ".", "/vagrant"
+    # config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=700,fmode=600"]
+    # if (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+    #     config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=700,fmode=600"]
+    # else
+    #     config.vm.synced_folder ".", "/vagrant"
+    # end
+
     config.vm.provider "virtualbox" do |v|
         v.memory = 2048
     end
