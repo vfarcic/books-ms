@@ -5,13 +5,6 @@ app:
   links:
     - db:db
 
-appLocal:
-  image: vfarcic/books-ms
-  ports:
-    - 8080:8080
-  links:
-    - db:db
-
 db:
   image: mongo
 
@@ -46,14 +39,6 @@ integ:
   environment:
     - TEST_TYPE=integ
     - DOMAIN=$DOMAIN
-
-integLocal:
-  image: vfarcic/books-ms-tests
-  volumes:
-    - ./src:/source/src
-  environment:
-    - TEST_TYPE=integ
-    - DOMAIN=http://172.17.42.1
 
 feTests:
   image: 10.100.198.200:5000/books-ms-tests
