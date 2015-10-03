@@ -1,0 +1,13 @@
+app:
+  image: 10.100.198.200:5000/books-ms
+  ports:
+    - 8080
+  environment:
+    - SERVICE_NAME=books-ms
+
+db:
+  image: mongo
+  ports:
+    - 27017
+  environment:
+    - SERVICE_NAME=books-db
