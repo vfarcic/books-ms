@@ -1,15 +1,21 @@
 - name: Add Docker repository and update apt cache
   apt_repository:
-    repo: deb https://get.docker.com/ubuntu docker main
+    repo: deb https://apt.dockerproject.org/repo ubuntu-trusty main
     update_cache: yes
     state: present
   tags: [docker]
 
-- name: Docker is present
+- name: Old Docker is absent
   apt:
     name: lxc-docker
+    purge: yes
+    state: absent
+  tags: [docker]
+
+- name: Docker is present
+  apt:
+    name: docker-engine
     state: latest
-    update_cache: yes
     force: yes
   tags: [docker]
 
