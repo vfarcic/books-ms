@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             inline: 'ansible-playbook \
                 /vagrant/ansible/dev.yml -c local -v'
     end
-    if Vagrant.has_plugin?("vagrant-cachier")
-        config.cache.scope = :box
-    end
+#    if Vagrant.has_plugin?("vagrant-cachier")
+#        config.cache.scope = :box
+#    end
 end
