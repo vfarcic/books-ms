@@ -24,7 +24,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         dev.vm.provision :shell, path: "bootstrap.sh"
         dev.vm.provision :shell,
             inline: 'ansible-playbook \
-                /vagrant/ansible/dev.yml -c local -v'
+                /vagrant/ansible/dev.yml -c local -vv'
     end
 #    if Vagrant.has_plugin?("vagrant-cachier")
 #        config.cache.scope = :box
