@@ -8,3 +8,4 @@
 /client/*.log
 /db
 /.ivy2
+/*.box
