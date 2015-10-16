@@ -1,3 +1,4 @@
+
 frontend books-ms-fe
     bind *:80
     option http-server-close
@@ -6,5 +7,5 @@ frontend books-ms-fe
 
 backend books-ms-be
     {{range service "books-ms" "any"}}
-    server {{.ID}} {{.Address}}:{{.Port}} check
+    server {{.Node}}_{{.Port}} {{.Address}}:{{.Port}} check
     {{end}}
