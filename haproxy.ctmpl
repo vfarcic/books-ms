@@ -6,5 +6,5 @@ frontend books-ms-fe
 
 backend books-ms-be
     {{range service "books-ms" "any"}}
-    server {{.ServiceID}} {{.Address}}:{{.Port}} check
+    server {{.ID}} {{.Address}}:{{.Port}} check
     {{end}}
