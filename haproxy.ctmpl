@@ -1,0 +1,10 @@
+frontend books-ms-fe
+    bind *:80
+    option http-server-close
+    acl url_books-ms path_beg /api/v1/books
+    use_backend books-ms-be if url_books-ms
+
+backend books-ms-be
+    {{range service "books-ms" "any"}}
+    server {{.ServiceID}} {{.Address}}:{{.Port}} check
+    {{end}}
