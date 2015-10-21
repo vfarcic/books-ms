@@ -2,6 +2,10 @@ app:
   image: 10.100.198.200:5000/books-ms
   ports:
     - 8080
+  log_driver: syslog
+  log_opt:
+    syslog-address: tcp://10.100.198.200:25826
+    syslog-tag: books-ms
   environment:
     - SERVICE_NAME=books-ms
 {{range service "books-db"}}
@@ -13,5 +17,9 @@ db:
   image: mongo
   ports:
     - 27017
+  log_driver: syslog
+  log_opt:
+    syslog-address: tcp://10.100.198.200:25826
+    syslog-tag: books-ms
   environment:
     - SERVICE_NAME=books-db
