@@ -1,28 +1,35 @@
-app:
+base:
   image: 10.100.198.200:5000/books-ms
   ports:
     - 8080
-  links:
-    - db:db
   environment:
     - SERVICE_NAME=books-ms
 
-#app-blue:
-#  environment:
-#    - SERVICE_NAME=books-ms-blue
-#  extends:
-#    service: app
-#
-#app-green:
-#  environment:
-#    - SERVICE_NAME=books-ms-green
-#  extends:
-#    service: app
+app:
+  extends:
+    service: base
+  links:
+    - db:db
+
+app-blue:
+  extends:
+    service: base
+  environment:
+    - SERVICE_NAME=books-ms-blue
+  links:
+    - db:db
+
+app-green:
+  extends:
+    service: base
+  environment:
+    - SERVICE_NAME=books-ms-green
+  links:
+    - db:db
 
 applocal:
-  image: vfarcic/books-ms
-  ports:
-    - 8080
+  extends:
+    service: base
   links:
     - db:db
 
