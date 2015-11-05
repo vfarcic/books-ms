@@ -18,7 +18,7 @@ app-green:
     service: app
 
 db:
-  container_name: books-db
+  container_name: books-ms-db
   image: mongo
   environment:
-    - SERVICE_NAME=books-db
+    - SERVICE_NAME=books-ms-db

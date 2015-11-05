@@ -42,7 +42,6 @@ integ:
 
 feTests:
   image: 10.100.198.200:5000/books-ms-tests
-  dockerfile: Dockerfile.test
   stdin_open: true
   tty: true
   volumes:
@@ -57,7 +56,6 @@ feTests:
 
 feTestsLocal:
   image: vfarcic/books-ms-tests
-  dockerfile: Dockerfile.test
   stdin_open: true
   tty: true
   volumes:

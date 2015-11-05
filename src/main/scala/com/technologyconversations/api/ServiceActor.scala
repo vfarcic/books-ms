@@ -21,7 +21,7 @@ case class Book(_id: Int, title: String, author: String, description: String) {
 
 class ServiceActor extends Actor with ServiceRoute with StaticRoute {
 
-  val address = envOrElse("DB_PORT_27017_TCP_ADDR", "localhost")
+  val address = envOrElse("DB_PORT_27017_TCP_ADDR", "books-ms-db")
   val port = envOrElse("DB_PORT_27017_PORT", "27017")
   val client = MongoClient(MongoClientURI(s"mongodb://$address:$port/"))
   val db = client(envOrElse("DB_DBNAME", "books"))
