@@ -1,6 +1,5 @@
 app:
   image: 10.100.198.200:5000/books-ms
-  net: swarm-net
   ports:
     - 8080
   environment:
@@ -21,6 +20,5 @@ app-green:
 db:
   container_name: books-ms-db
   image: mongo
-  net: swarm-net
   environment:
     - SERVICE_NAME=books-ms-db
