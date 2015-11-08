@@ -8,6 +8,7 @@ RUN apt-get update && \
 
 ENV DB_DBNAME books
 ENV DB_COLLECTION books
+ENV DB_HOST localhost
 
 COPY run.sh /run.sh
 RUN chmod +x /run.sh

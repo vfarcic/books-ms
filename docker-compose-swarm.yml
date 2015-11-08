@@ -4,6 +4,7 @@ app:
     - 8080
   environment:
     - SERVICE_NAME=books-ms
+    - DB_HOST=books-ms-db
 
 app-blue:
   environment:
