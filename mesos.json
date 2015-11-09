@@ -10,7 +10,7 @@
       "image": "10.100.198.200:5000/books-ms",
       "network": "BRIDGE",
       "portMappings": [
-        { "containerPort": 8080, "hostPort": 0, "servicePort": 0, "protocol": "tcp" }
+        { "containerPort": 8080, "hostPort": 0 }
       ]
     }
   }
