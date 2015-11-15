@@ -14,7 +14,7 @@
   },
   "resolutions": {
     "polymer": "^1.0.0",
-    "webcomponentsjs": "^0.7.2",
+    "webcomponentsjs": "^0.7.15",
     "iron-ajax": "^1.0.0",
     "promise-polyfill": "^1.0.0",
     "iron-autogrow-textarea": "^1.0.0",

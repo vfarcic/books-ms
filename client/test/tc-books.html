@@ -175,22 +175,22 @@
 
         });
 
-//        describe('refresh function', function() {
-//
-//            it('is defined', function() {
-//                assert.isDefined(myEl.refresh);
-//            });
-//
-//            it('calls ajax.generateRequest function', function() {
-//                var el = fixture('fixture');
-//                el.$.ajax.generateRequest = sinon.mock();
-//
-//                el.refresh();
-//
-//                sinon.assert.calledOnce(el.$.ajax.generateRequest);
-//            });
-//
-//        });
+        describe('refresh function', function() {
+
+            it('is defined', function() {
+                assert.isDefined(myEl.refresh);
+            });
+
+            it('calls ajax.generateRequest function', function() {
+                var el = fixture('fixture');
+                el.$.ajax.generateRequest = sinon.mock();
+
+                el.refresh();
+
+                sinon.assert.calledOnce(el.$.ajax.generateRequest);
+            });
+
+        });
 
     });
 </script>
