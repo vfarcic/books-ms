@@ -4,7 +4,7 @@ app:
     - 8080
   log_driver: syslog
   log_opt:
-    syslog-address: tcp://10.100.198.200:25826
+    syslog-address: tcp://10.100.192.200:25826
     syslog-tag: books-ms
   environment:
     - SERVICE_NAME=books-ms
@@ -23,12 +23,11 @@ app-green:
     service: app
 
 db:
+  container_name: books-ms-db
   image: mongo
-  ports:
-    - 27017
   log_driver: syslog
   log_opt:
-    syslog-address: tcp://10.100.198.200:25826
+    syslog-address: tcp://10.100.192.200:25826
     syslog-tag: books-db
   environment:
     - SERVICE_NAME=books-db
