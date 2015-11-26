@@ -1,0 +1,5 @@
+upstream books-ms {
+    {{range service "books-ms-blue" "any"}}
+    server {{.Address}}:{{.Port}};
+    {{end}}
+}
