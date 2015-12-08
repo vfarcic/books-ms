@@ -1,0 +1,14 @@
+{
+  "service": {
+    "name": "books-ms",
+    "tags": ["service"],
+    "port": 80,
+    "address": "{{key "proxy/ip"}}",
+    "checks": [{
+      "id": "api",
+      "name": "HTTP on port 80",
+      "http": "http://{{key "proxy/ip"}}/api/v1/books",
+      "interval": "10s"
+    }]
+  }
+}
