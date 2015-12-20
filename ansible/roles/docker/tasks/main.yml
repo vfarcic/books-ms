@@ -5,13 +5,6 @@
     state: present
   tags: [docker]
 
-- name: Old Docker is absent
-  apt:
-    name: lxc-docker
-    purge: yes
-    state: absent
-  tags: [docker]
-
 - name: Docker is present
   apt:
     name: docker-engine
