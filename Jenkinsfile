@@ -1,1 +1,3 @@
-sh "echo 'xxxxxxx'"
+node("cd") {
+    sh "echo 'xxxxxxx'"
+}
