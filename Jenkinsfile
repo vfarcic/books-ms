@@ -8,9 +8,9 @@ node("cd") {
     def flow = load "/data/scripts/workflow-util.groovy"
     flow.provision("prod2.yml")
     flow.buildTests(serviceName, registryIpPort)
-    flow.runTests("tests", "")
+    flow.runTests(serviceName, "tests", "")
     flow.buildService(serviceName, registryIpPort)
-    flow.deploy(prodIp)
+    flow.deploy(serviceName, prodIp)
     flow.updateProxy(serviceName, "prod")
-    flow.runTests("integ", "-e DOMAIN=http://${proxyIp}")
+    flow.runTests(serviceName, "integ", "-e DOMAIN=http://${proxyIp}")
 }
