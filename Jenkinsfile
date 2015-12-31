@@ -5,5 +5,5 @@ node("cd") {
     git url: "https://github.com/vfarcic/${serviceName}.git"
     def flow = load "/data/scripts/workflow-util.groovy"
     flow.buildTests(serviceName, registryIpPort)
-    flow.runTests("tests", "")
+    flow.runTests(serviceName, "tests", "")
 }
