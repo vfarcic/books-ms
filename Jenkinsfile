@@ -6,5 +6,4 @@ node("cd") {
     def flow = load "/data/scripts/workflow-util.groovy"
     flow.buildTests(serviceName, registryIpPort)
     flow.runTests("tests", "")
-    flow.buildService(serviceName, registryIpPort)
 }
