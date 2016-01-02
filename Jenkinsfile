@@ -17,5 +17,5 @@ node("cd") {
     flow.deployBG(serviceName, prodIp, nextColor) // Modified
     flow.runBGPreIntegrationTests(serviceName, prodIp, nextColor) // New
     flow.updateBGProxy(serviceName, "prod", nextColor) // Modified
-    flow.runBGPostIntegrationTests(serviceName, prodIp, proxyNode, currentColor, nextColor) // Modified
+    flow.runBGPostIntegrationTests(serviceName, prodIp, "prod", currentColor, nextColor) // Modified
 }
