@@ -4,7 +4,7 @@ node("cd") {
     def proxyIp = "10.100.198.201"
     def registryIpPort = "10.100.198.200:5000"
 
-    def currentColor = getCurrentColor(swarmMaster, service) // New
+    def currentColor = getCurrentColor(prodIp, service) // New
     def nextColor = getNextColor(currentColor) // New
 
     git url: "https://github.com/vfarcic/${serviceName}.git"
