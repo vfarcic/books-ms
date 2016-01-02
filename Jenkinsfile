@@ -4,11 +4,12 @@ node("cd") {
     def proxyIp = "10.100.198.201"
     def registryIpPort = "10.100.198.200:5000"
 
-    def currentColor = getCurrentColor(prodIp, service) // New
-    def nextColor = getNextColor(currentColor) // New
+    def flow = load "/data/scripts/workflow-util.groovy"
+
+    def currentColor = flow.getCurrentColor(prodIp, service) // New
+    def nextColor = flow.getNextColor(currentColor) // New
 
     git url: "https://github.com/vfarcic/${serviceName}.git"
-    def flow = load "/data/scripts/workflow-util.groovy"
     flow.provision("prod2.yml")
     flow.buildTests(serviceName, registryIpPort)
     flow.runTests(serviceName, "tests", "")
