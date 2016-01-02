@@ -2,6 +2,7 @@ node("cd") {
     def serviceName = "books-ms"
     def prodIp = "10.100.198.201"
     def proxyIp = "10.100.198.201"
+    def proxyNode = "prod"
     def registryIpPort = "10.100.198.200:5000"
 
     def flow = load "/data/scripts/workflow-util.groovy"
@@ -16,6 +17,6 @@ node("cd") {
     flow.buildService(serviceName, registryIpPort)
     flow.deployBG(serviceName, prodIp, nextColor) // Modified
     flow.runBGPreIntegrationTests(serviceName, prodIp, nextColor) // New
-    flow.updateBGProxy(serviceName, "prod", nextColor) // Modified
-    flow.runBGPostIntegrationTests(serviceName, prodIp, "prod", currentColor, nextColor) // Modified
+    flow.updateBGProxy(serviceName, proxyNode, nextColor) // Modified
+    flow.runBGPostIntegrationTests(serviceName, proxyIp, proxyNode, currentColor, nextColor) // Modified
 }
