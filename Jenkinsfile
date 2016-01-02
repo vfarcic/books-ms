@@ -6,7 +6,7 @@ node("cd") {
 
     def flow = load "/data/scripts/workflow-util.groovy"
 
-    def currentColor = flow.getCurrentColor(prodIp, service) // New
+    def currentColor = flow.getCurrentColor(prodIp, serviceName) // New
     def nextColor = flow.getNextColor(currentColor) // New
 
     git url: "https://github.com/vfarcic/${serviceName}.git"
