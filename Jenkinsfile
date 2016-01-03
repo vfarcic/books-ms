@@ -13,11 +13,11 @@ node("cd") {
     flow.runTests(serviceName, "tests", "")
     flow.buildService(serviceName, registryIpPort)
 
-    def currentColor = flow.getCurrentColor(serviceName, prodIp) // New
-    def nextColor = flow.getNextColor(currentColor) // New
+    def currentColor = flow.getCurrentColor(serviceName, prodIp)
+    def nextColor = flow.getNextColor(currentColor)
 
-    flow.deployBG(serviceName, prodIp, nextColor) // Modified
-    flow.runBGPreIntegrationTests(serviceName, prodIp, nextColor) // New
-    flow.updateBGProxy(serviceName, proxyNode, nextColor) // Modified
-    flow.runBGPostIntegrationTests(serviceName, prodIp, proxyIp, proxyNode, currentColor, nextColor) // Modified
+    flow.deployBG(serviceName, prodIp, nextColor)
+    flow.runBGPreIntegrationTests(serviceName, prodIp, nextColor)
+    flow.updateBGProxy(serviceName, proxyNode, nextColor)
+    flow.runBGPostIntegrationTests(serviceName, prodIp, proxyIp, proxyNode, currentColor, nextColor)
 }
