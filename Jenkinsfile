@@ -7,7 +7,7 @@ node("cd") {
 
     def flow = load "/data/scripts/workflow-util.groovy"
 
-    def currentColor = flow.getCurrentColor(prodIp, serviceName) // New
+    def currentColor = flow.getCurrentColor(serviceName, prodIp) // New
     echo "CURRENT COLOR: $currentColor"
     def nextColor = flow.getNextColor(currentColor) // New
     echo "NEXT COLOR: $nextColor"
