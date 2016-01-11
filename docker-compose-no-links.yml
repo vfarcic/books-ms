@@ -4,5 +4,4 @@ app:
     - 8080
 
 db:
-  container_name: books-ms-db
   image: mongo
