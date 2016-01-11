@@ -2,7 +2,7 @@ app:
   image: 10.100.198.200:5000/books-ms
   ports:
     - 8080
-  net: booksms
+  net: books-ms
   environment:
     - SERVICE_NAME=books-ms
     - DB_HOST=books-ms-db
@@ -22,6 +22,6 @@ app-green:
 db:
   container_name: books-ms-db
   image: mongo
-  net: booksms
+  net: books-ms
   environment:
     - SERVICE_NAME=books-ms-db
