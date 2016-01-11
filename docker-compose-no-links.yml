@@ -6,18 +6,6 @@ app:
     - SERVICE_NAME=books-ms
     - DB_HOST=books-ms-db
 
-app-blue:
-  environment:
-    - SERVICE_NAME=books-ms-blue
-  extends:
-    service: app
-
-app-green:
-  environment:
-    - SERVICE_NAME=books-ms-green
-  extends:
-    service: app
-
 db:
   container_name: books-ms-db
   image: mongo
