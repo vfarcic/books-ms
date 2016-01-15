@@ -1,18 +1,18 @@
 node("cd") {
     def serviceName = "books-ms"
-    def prodIp = "10.100.192.200" // Modified
-    def proxyIp = "10.100.192.200" // Modified
+    def prodIp = "10.100.192.200"
+    def proxyIp = "10.100.192.200"
     def proxyNode = "swarm-master"
     def registryIpPort = "10.100.198.200:5000"
-    def swarmPlaybook = "swarm.yml" // Modified
-    def proxyPlaybook = "swarm-proxy.yml" // Added
-    def instances = 1 // Added
+    def swarmPlaybook = "swarm.yml"
+    def proxyPlaybook = "swarm-proxy.yml"
+    def instances = 1
 
     def flow = load "/data/scripts/workflow-util.groovy"
 
     git url: "https://github.com/vfarcic/${serviceName}.git"
-    flow.provision(swarmPlaybook) // Modified
-    flow.provision(proxyPlaybook) // Added
+    flow.provision(swarmPlaybook)
+    flow.provision(proxyPlaybook)
     flow.buildTests(serviceName, registryIpPort)
     flow.runTests(serviceName, "tests", "")
     flow.buildService(serviceName, registryIpPort)
@@ -20,7 +20,7 @@ node("cd") {
     def currentColor = flow.getCurrentColor(serviceName, prodIp)
     def nextColor = flow.getNextColor(currentColor)
 
-    flow.deploySwarm(serviceName, prodIp, nextColor, instances) // Modified
+    flow.deploySwarm(serviceName, prodIp, nextColor, instances)
     flow.runBGPreIntegrationTests(serviceName, prodIp, nextColor)
     flow.updateBGProxy(serviceName, proxyNode, nextColor)
     flow.runBGPostIntegrationTests(serviceName, prodIp, proxyIp, proxyNode, currentColor, nextColor)
