@@ -2,7 +2,7 @@ node("cd") {
     def serviceName = "books-ms"
     def prodIp = "10.100.192.200" // Modified
     def proxyIp = "10.100.192.200" // Modified
-    def proxyNode = "prod"
+    def proxyNode = "swarm-master"
     def registryIpPort = "10.100.198.200:5000"
     def swarmPlaybook = "swarm.yml" // Modified
     def proxyPlaybook = "swarm-proxy.yml" // Added
