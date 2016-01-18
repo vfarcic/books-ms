@@ -24,6 +24,6 @@ node("cd") {
     flow.deploySwarm(serviceName, prodIp, nextColor, instances)
     flow.runBGPreIntegrationTests(serviceName, prodIp, nextColor)
     flow.updateBGProxy(serviceName, proxyNode, nextColor)
-    flow.updateChecks(serviceName, swarmNode) {
+    flow.updateChecks(serviceName, swarmNode)
     flow.runBGPostIntegrationTests(serviceName, prodIp, proxyIp, proxyNode, currentColor, nextColor)
 }
