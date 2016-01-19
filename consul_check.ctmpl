@@ -9,7 +9,7 @@
       "name": "HTTP on port 80",
       "http": "http://{{key "proxy/ip"}}/api/v1/books",
       "interval": "10s",
-      "timeout": "1s"
+      "timeout": "1s",
       "status": "passing"
     }]
   }
