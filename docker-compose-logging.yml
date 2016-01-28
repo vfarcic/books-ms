@@ -5,7 +5,6 @@ app:
   net: books-ms
   log_driver: syslog
   log_opt:
-    syslog-address: tcp://10.100.192.200:25826
     syslog-tag: books-ms
   environment:
     - SERVICE_NAME=books-ms
@@ -29,7 +28,6 @@ db:
   log_driver: syslog
   net: books-ms
   log_opt:
-    syslog-address: tcp://10.100.192.200:25826
     syslog-tag: books-db
   environment:
     - SERVICE_NAME=books-db
