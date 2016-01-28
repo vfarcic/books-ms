@@ -2,32 +2,16 @@ app:
   image: 10.100.198.200:5000/books-ms
   ports:
     - 8080
-  net: books-ms
+  links:
+    - db:db
+  environment:
+    - SERVICE_NAME=books-ms
   log_driver: syslog
   log_opt:
     syslog-tag: books-ms
-  environment:
-    - SERVICE_NAME=books-ms
-    - DB_HOST=books-ms-db
-
-app-blue:
-  environment:
-    - SERVICE_NAME=books-ms-blue
-  extends:
-    service: app
-
-app-green:
-  environment:
-    - SERVICE_NAME=books-ms-green
-  extends:
-    service: app
 
 db:
-  container_name: books-ms-db
   image: mongo
   log_driver: syslog
-  net: books-ms
   log_opt:
-    syslog-tag: books-db
-  environment:
-    - SERVICE_NAME=books-db
+    syslog-tag: books-ms
