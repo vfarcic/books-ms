@@ -2,6 +2,7 @@ app:
   image: 10.100.198.200:5000/books-ms
   ports:
     - 8080
+  net: books-ms
   log_driver: syslog
   log_opt:
     syslog-address: tcp://10.100.192.200:25826
@@ -26,6 +27,7 @@ db:
   container_name: books-ms-db
   image: mongo
   log_driver: syslog
+  net: books-ms
   log_opt:
     syslog-address: tcp://10.100.192.200:25826
     syslog-tag: books-db
