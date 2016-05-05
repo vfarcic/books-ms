@@ -8,6 +8,8 @@ services:
     environment:
       - SERVICE_NAME=books-ms
       - DB_HOST=books-ms-db
+    depends_on:
+      - db
 
   app-blue:
     environment:
