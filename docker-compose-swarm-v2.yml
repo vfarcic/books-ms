@@ -8,20 +8,22 @@ services:
     environment:
       - SERVICE_NAME=books-ms
       - DB_HOST=books-ms-db
-    depends_on:
-      - db
 
   app-blue:
     environment:
       - SERVICE_NAME=books-ms-blue
     extends:
       service: app
+    depends_on:
+      - db
 
   app-green:
     environment:
       - SERVICE_NAME=books-ms-green
     extends:
       service: app
+    depends_on:
+      - db
 
   db:
     container_name: books-ms-db
