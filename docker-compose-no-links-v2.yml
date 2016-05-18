@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+
+  app:
+    image: 10.100.198.200:5000/books-ms
+    ports:
+      - 8080
+
+  db:
+    image: mongo

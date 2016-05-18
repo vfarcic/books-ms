@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+
+  base:
+    image: 10.100.198.200:5000/books-ms
+    ports:
+      - 8080
+    environment:
+      - SERVICE_NAME=books-ms
+
+  app:
+    extends:
+      service: base
+    links:
+      - db:db
+
+  app-blue:
+    extends:
+      service: base
+    environment:
+      - SERVICE_NAME=books-ms-blue
+    links:
+      - db:db
+
+  app-green:
+    extends:
+      service: base
+    environment:
+      - SERVICE_NAME=books-ms-green
+    links:
+      - db:db
+
+  applocal:
+    extends:
+      service: base
+    links:
+      - db:db
+
+  db:
+    image: mongo
