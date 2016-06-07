@@ -1,4 +1,4 @@
-FROM java:7-alpine
+FROM java
 MAINTAINER Viktor Farcic "viktor@farcic.com"
 
 ENV DB_DBNAME books
