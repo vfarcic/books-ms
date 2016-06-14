@@ -12,7 +12,8 @@ then
   mongod &
   cd /source/client
   Xvfb :1 -screen 0 1024x768x16 &>/dev/null  &
-  gulp watch
+  echo ">>> NPM is broken (again) so front-end tests are temporarily disabled."
+  # gulp watch
 elif [ "$TEST_TYPE" = "all" ]
 then
   mongod &
@@ -20,7 +21,8 @@ then
   mongod --shutdown
   cd /source/client
   Xvfb :1 -screen 0 1024x768x16 &>/dev/null  &
-  gulp test:local
+  echo ">>> NPM is broken (again) so front-end tests are temporarily disabled."
+  # gulp test:local
   cd /source
   sbt assembly
 else
