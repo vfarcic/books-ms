@@ -9,7 +9,6 @@ elif [ "$TEST_TYPE" = "watch-front" ]
 then
   mongod &
   sbt run &
-  mongod &
   cd /source/client
   Xvfb :1 -screen 0 1024x768x16 &>/dev/null  &
   echo ">>> NPM is broken (again) so front-end tests are temporarily disabled."
