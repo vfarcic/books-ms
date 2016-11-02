@@ -37,6 +37,7 @@ integ:
   volumes:
     - ./src:/source/src
   environment:
+    - JAVA_OPTS=-Xmx512m -Xms256m
     - TEST_TYPE=integ
     - DOMAIN=$DOMAIN
 
