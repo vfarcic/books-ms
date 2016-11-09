@@ -12,10 +12,10 @@ services:
       - SERVICE_NAME=books-ms
     log_driver: syslog
     log_opt:
-      syslog-tag: books-ms
+      tag: books-ms
 
   db:
     image: mongo
     log_driver: syslog
     log_opt:
-      syslog-tag: books-ms
+      tag: books-ms
