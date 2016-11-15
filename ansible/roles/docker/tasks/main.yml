@@ -17,7 +17,7 @@
   tags: [docker]
 
 - name: Docker-py is present
-  pip: name=docker-py version=0.4.0 state=present
+  pip: name=docker-py version=1.6.0 state=present
   tags: [docker]
 
 - name: Docker Compose is present
