@@ -15,4 +15,4 @@ COPY client/components /client/components
 CMD ["java","-jar","bs.jar"]
 
 
-EXPOSE 8084
+EXPOSE 8080
