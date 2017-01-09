@@ -12,7 +12,7 @@ COPY target/scala-2.10/books-ms-assembly-1.0.jar /bs.jar
 COPY client/components /client/components
 
 #CMD ["/run.sh"]
-CMD ["java","-jar","gs-spring-boot-docker-0.1.0.jar"]
+CMD ["java","-jar","bs.jar"]
 
 
 EXPOSE 8084
