@@ -1,16 +1,18 @@
-FROM java
+FROM openjdk:8-jdk-alpine
 MAINTAINER Viktor Farcic "viktor@farcic.com"
 
 ENV DB_DBNAME books
 ENV DB_COLLECTION books
 ENV DB_HOST localhost
 
-COPY run.sh /run.sh
-RUN chmod +x /run.sh
+#COPY run.sh /run.sh
+#RUN chmod +x /run.sh
 
 COPY target/scala-2.10/books-ms-assembly-1.0.jar /bs.jar
 COPY client/components /client/components
 
-CMD ["/run.sh"]
+#CMD ["/run.sh"]
+CMD ["java","-jar","gs-spring-boot-docker-0.1.0.jar"]
 
-EXPOSE 8080
+
+EXPOSE 8084
