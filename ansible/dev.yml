@@ -1,5 +1,5 @@
 - hosts: localhost
   remote_user: vagrant
-  sudo: yes
+  become_user: yes
   roles:
     - docker
