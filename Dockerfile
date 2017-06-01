@@ -1,4 +1,4 @@
-FROM java
+FROM openjdk
 MAINTAINER Viktor Farcic "viktor@farcic.com"
 
 ENV DB_DBNAME books
