@@ -24,6 +24,7 @@
   get_url:
     url: https://github.com/docker/compose/releases/download/1.11.1/docker-compose-Linux-x86_64
     dest: /usr/local/bin/docker-compose
+    timeout: 60
   tags: [docker]
 
 - name: Docker Compose permissions are set
