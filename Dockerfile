@@ -1,4 +1,5 @@
-FROM openjdk
+#FROM openjdk
+FROM openjdk:7u181-jdk-jessie
 MAINTAINER Viktor Farcic "viktor@farcic.com"
 
 ENV DB_DBNAME books
@@ -9,8 +10,8 @@ COPY run.sh /run.sh
 RUN chmod +x /run.sh
 
 COPY target/scala-2.10/books-ms-assembly-1.0.jar /bs.jar
-COPY client/components /client/components
+COPY client /client
 
-CMD ["/run.sh"]
+CMD ["sh","/run.sh"]
 
 EXPOSE 8080

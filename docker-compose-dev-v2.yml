@@ -3,7 +3,7 @@ version: '2'
 services:
 
   app:
-    image: 10.100.198.200:5000/books-ms
+    image: 192.168.60.200:5000/books-ms
     ports:
       - 8080:8080
     links:
@@ -13,7 +13,7 @@ services:
     image: mongo
 
   tests:
-    image: 10.100.198.200:5000/books-ms-tests
+    image: 192.168.60.200:5000/books-ms-tests
     volumes:
       - ./client/components:/source/client/components
       - ./client/test:/source/client/test
@@ -37,7 +37,7 @@ services:
       - TEST_TYPE=all
 
   integ:
-    image: 10.100.198.200:5000/books-ms-tests
+    image: 192.168.60.200:5000/books-ms-tests
     volumes:
       - ./src:/source/src
     environment:
@@ -45,7 +45,7 @@ services:
       - DOMAIN=$DOMAIN
 
   feTests:
-    image: 10.100.198.200:5000/books-ms-tests
+    image: 192.168.60.200:5000/books-ms-tests
     stdin_open: true
     tty: true
     volumes:

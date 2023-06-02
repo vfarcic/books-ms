@@ -3,6 +3,7 @@
 
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
+  #config.vm.box = "generic/ubuntu1604"
   if (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
     config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=700,fmode=600"]
   else
@@ -12,7 +13,8 @@ Vagrant.configure(2) do |config|
     v.memory = 2048
   end
   config.vm.define :dev do |dev|
-    dev.vm.network "private_network", ip: "10.100.199.200"
+    #dev.vm.network "private_network", ip: "10.100.199.200"
+    dev.vm.network "private_network", ip: "192.168.61.200"
     dev.vm.provision :shell, path: "bootstrap.sh"
     dev.vm.provision :shell,
       inline: 'PYTHONUNBUFFERED=1 ansible-playbook \

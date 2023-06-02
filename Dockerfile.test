@@ -1,7 +1,13 @@
 FROM debian:jessie
+
 MAINTAINER Viktor Farcic "viktor@farcic.com"
 
 ENV VERSION 1.0
+
+RUN echo "deb http://archive.debian.org/debian/ jessie main contrib non-free" >/etc/apt/sources.list && \
+    echo "deb http://archive.debian.org/debian-security jessie/updates main contrib non-free" >>/etc/apt/sources.list && \
+    echo 'APT::Get::AllowUnauthenticated "true";' >/etc/apt/apt.conf.d/99allow-unauthenticated && \
+    apt-get -y update
 
 RUN apt-get update
 
@@ -10,7 +16,8 @@ RUN apt-get -y install curl
 
 # Dependencies
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
-    echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list && \
+    echo "deb https://repo.scala-sbt.org/scalasbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list && \
+    #echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list && \
     curl -sL https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list && \
     echo "deb http://packages.linuxmint.com debian import" >> /etc/apt/sources.list
@@ -18,12 +25,14 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
 # Mongo, NodeJS, Git, SBT, xvfb, FireFox, Chrome
 RUN apt-get update && \
     apt-get -y --fix-missing install wget bzip2 make g++ && \
-    apt-get -y --force-yes --fix-missing install --no-install-recommends mongodb git sbt=0.13.13 xvfb nodejs firefox google-chrome-stable && \
+    #apt-get -y --force-yes --fix-missing install --no-install-recommends mongodb git sbt=0.13.13 xvfb nodejs firefox google-chrome-stable && \
+    apt-get -y --force-yes --fix-missing install --no-install-recommends mongodb git sbt=0.13.13 xvfb nodejs firefox && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Scala
-RUN curl -O -q http://downloads.typesafe.com/scala/2.11.5/scala-2.11.5.deb && \
+#RUN curl -O -q http://downloads.typesafe.com/scala/2.11.5/scala-2.11.5.deb && \
+RUN curl -O -q https://downloads.lightbend.com/scala/2.11.5/scala-2.11.5.deb && \
     dpkg -i scala-2.11.5.deb && \
     rm scala-2.11.5.deb
 
@@ -45,7 +54,9 @@ ADD run_tests.sh /source/run_tests.sh
 
 # Dependencies
 RUN cd /source && sbt update
-RUN cd /source/client && npm install && bower install --allow-root --config.interactive=false -s
+#RUN cd /source/client && npm install && bower install --allow-root --config.interactive=false -s
+ARG CACHEBUST=1
+RUN cd /source/client && npm install && bower install --allow-root --config.interactive=false --config.strict-ssl=false -s
 
 # Envs
 ENV TEST_TYPE "spec"
@@ -59,3 +70,4 @@ VOLUME ["/source", "/source/target/scala-2.10", "/root/.ivy2/cache", "/data/db"]
 CMD ["/source/run_tests.sh"]
 
 EXPOSE 8080
+

@@ -1,10 +1,10 @@
 node("cd") {
     def serviceName = "books-ms"
-    def prodIp = "10.100.192.200"
-    def proxyIp = "10.100.192.200"
+    def prodIp = "192.168.56.200"
+    def proxyIp = "192.168.56.200"
     def swarmNode = "swarm-master"
     def proxyNode = "swarm-master"
-    def registryIpPort = "10.100.198.200:5000"
+    def registryIpPort = "192.168.60.200:5000"
     def swarmPlaybook = "swarm-healing.yml"
     def proxyPlaybook = "swarm-proxy.yml"
     def instances = 1

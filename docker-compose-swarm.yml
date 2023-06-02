@@ -1,5 +1,5 @@
 app:
-  image: 10.100.198.200:5000/books-ms
+  image: 192.168.60.200:5000/books-ms
   ports:
     - 8080
   net: books-ms

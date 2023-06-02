@@ -7,7 +7,7 @@
   "container": {
     "type": "DOCKER",
     "docker": {
-      "image": "10.100.198.200:5000/books-ms",
+      "image": "192.168.60.200:5000/books-ms",
       "network": "BRIDGE",
       "portMappings": [
         { "containerPort": 8080, "hostPort": 0, "servicePort": 0, "protocol": "tcp" }
