@@ -34,4 +34,4 @@ applocal:
     - db:db
 
 db:
-  image: mongo
+  image: mongo:4
